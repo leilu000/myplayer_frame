@@ -55,9 +55,7 @@ public class TexturePlayerLayout extends BasePlayerLayout implements TextureView
 
     @Override
     public boolean onSurfaceTextureDestroyed(SurfaceTexture surface) {
-        Log.i("==", "@@@ onSurfaceTextureDestroyed");
-        surface.release();
-        return true;
+        return mSurfaceTexture == null;
     }
 
     @Override
@@ -78,6 +76,7 @@ public class TexturePlayerLayout extends BasePlayerLayout implements TextureView
         super.dettachPlayer();
         if (mSurfaceTexture != null) {
             mSurfaceTexture.release();
+            mSurfaceTexture = null;
         }
         if (mSurface != null) {
             mSurface.release();

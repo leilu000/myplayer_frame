@@ -26,13 +26,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         mTexturePlayerLayout = findViewById(R.id.layout);
 
-
-        mTexturePlayerLayout.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                initPlayer();
-            }
-        }, 2000);
+        initPlayer();
+//        mTexturePlayerLayout.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                initPlayer();
+//            }
+//        }, 2000);
     }
 
     private void initPlayer() {
