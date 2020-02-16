@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/common_round_bg"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.maileji.libcommon.views.CommonLoadingView
+            android:id="@+id/iv_loading"
+            android:layout_width="@dimen/dp45"
+            android:layout_height="@dimen/dp45"
+            android:layout_margin="@dimen/dp10"
+            app:BackGroundResId="@drawable/bg_video_controller_loading" />
+    </FrameLayout>
+
+
+    <include
+        layout="@layout/view_default_brightness_bg"
+        android:layout_width="@dimen/dp150"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/ll_bottom_panel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#30000000"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingStart="@dimen/dp8"
+        android:paddingEnd="@dimen/dp8"
+        android:paddingBottom="@dimen/dp10"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <ImageView
+            android:id="@+id/iv_play"
+            android:layout_width="@dimen/dp25"
+            android:layout_height="@dimen/dp25"
+            android:src="@drawable/bg_video_controller_play" />
+
+        <TextView
+            android:id="@+id/tv_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp4"
+            android:text="00:00"
+            android:textColor="#ffffff"
+            android:textSize="12sp" />
+
+        <SeekBar
+            android:id="@+id/sb_progress"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/dp2"
+            android:layout_marginStart="@dimen/dp4"
+            android:layout_marginEnd="@dimen/dp4"
+            android:layout_weight="1"
+            android:background="#000000"
+            android:padding="0dp"
+            android:progressDrawable="@drawable/bg_progress_bar"
+            android:thumb="@null" />
+
+        <TextView
+            android:id="@+id/tv_duration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="00:00"
+            android:textColor="#ffffff"
+            android:textSize="12sp" />
+
+        <ImageView
+            android:id="@+id/iv_screen_orientation"
+            android:layout_width="@dimen/dp25"
+            android:layout_height="@dimen/dp25"
+            android:layout_marginStart="@dimen/dp4"
+            android:src="@drawable/bg_video_controller_fullscreen" />
+
+
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
