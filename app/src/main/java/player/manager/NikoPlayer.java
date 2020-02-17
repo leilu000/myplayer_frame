@@ -649,7 +649,7 @@ public class NikoPlayer {
         /**
          * 设置缩放模式
          *
-         * @param mode 默认是Fill
+         * @param mode 默认是AspectFit
          */
         @UiThread
         public Builder setScaleMode(ViewScaleUtil.ScaleMode mode) {

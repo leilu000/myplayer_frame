@@ -1,13 +1,12 @@
 package com.leilu.playerframe;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
-import player.base.BasePlayer;
+import androidx.appcompat.app.AppCompatActivity;
+
 import player.base.inter.IPlayerFactory;
 import player.bean.DisplayMode;
 import player.bean.SimplePlayerListener;
@@ -44,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
                 .setLoop(true)
                 .setPlayerType(IPlayerFactory.PlayerType.ANDROID_MEDIA_PLAYER)
                 .setDataSource(url)
-                .setScaleMode(ViewScaleUtil.ScaleMode.Fill)
+                .setScaleMode(ViewScaleUtil.ScaleMode.AspectFit)
                 .create();
         mPlayer.addPlayerListener(new SimplePlayerListener() {
             @Override
@@ -82,12 +81,11 @@ public class MainActivity extends AppCompatActivity {
 
     public void changeScale(View view) {
         Button btn = (Button) view;
-        mPlayer.setScaleMode(ViewScaleUtil.ScaleMode.AspectFit);
+        mPlayer.setScaleMode(ViewScaleUtil.ScaleMode.Fill);
     }
 
     @Override
     public void onBackPressed() {
-
         if (mPlayer.onBackPress()) {
             return;
         }

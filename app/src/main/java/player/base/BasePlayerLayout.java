@@ -52,15 +52,23 @@ public abstract class BasePlayerLayout extends FrameLayout {
         if (getChildCount() == 0 || (mImageWidth == 0 || mImageHeight == 0)) {
             return;
         }
+        if (getChildCount() > 1) {
+            throw new RuntimeException("The layout can only have one child View !");
+        }
         View childView = getChildAt(0);
         ViewScaleUtil.Size size = ViewScaleUtil.calcFitSize(mImageWidth, mImageHeight, getMeasuredWidth(), getMeasuredHeight(), mScaleMode);
         FrameLayout.LayoutParams params = (LayoutParams) childView.getLayoutParams();
-        params.gravity = Gravity.TOP;
         params.width = size.width;
         params.height = size.height;
         params.leftMargin = size.x;
         params.topMargin = size.y;
-        childView.setLayoutParams(params);
+        childView.layout(size.x, size.y, size.x + size.width, size.y + size.height);
+    }
+
+    @Override
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        super.onSizeChanged(w, h, oldw, oldh);
+
     }
 
     @UiThread
