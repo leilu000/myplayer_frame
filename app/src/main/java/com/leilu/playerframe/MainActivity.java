@@ -25,7 +25,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mTexturePlayerLayout = findViewById(R.id.layout);
-
         initPlayer();
 //        mTexturePlayerLayout.postDelayed(new Runnable() {
 //            @Override
