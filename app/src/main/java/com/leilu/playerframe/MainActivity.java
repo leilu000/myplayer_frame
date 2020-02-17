@@ -36,15 +36,17 @@ public class MainActivity extends AppCompatActivity {
 
     private void initPlayer() {
         String url = "http://1259438468.vod2.myqcloud.com/6ac6c9d4vodcq1259438468/2dc46ae95285890798568929916/Grvg1EX8yAQA.mp4";
+        url = "/sdcard/DCIM/Camera/VID_20200217_150849.mp4";// 横屏拍摄
+        // url = "/sdcard/DCIM/Camera/VID_20200217_151125.mp4";// 竖屏拍摄
         mPlayer = new NikoPlayer.Builder()
                 .setDisplayMode(DisplayMode.PORTRAIT_FULL_SCREEN)
                 .setIsHardDecode(true)
                 .setIsStartOnPrepared(true)
                 .setRenderLayout(mTexturePlayerLayout)
                 .setLoop(true)
-                .setPlayerType(IPlayerFactory.PlayerType.ANDROID_MEDIA_PLAYER)
+                .setPlayerType(IPlayerFactory.PlayerType.IJK_PLAYER)
                 .setDataSource(url)
-                .setScaleMode(ViewScaleUtil.ScaleMode.AspectFit)
+                .setScaleMode(ViewScaleUtil.ScaleMode.Fill)
                 .create();
         mPlayer.addPlayerListener(new SimplePlayerListener() {
             @Override
@@ -82,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void changeScale(View view) {
         Button btn = (Button) view;
-        mPlayer.setScaleMode(ViewScaleUtil.ScaleMode.Fill);
+        mPlayer.setScaleMode(ViewScaleUtil.ScaleMode.AspectFit);
     }
 
     @Override

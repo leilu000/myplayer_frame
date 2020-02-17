@@ -30,7 +30,7 @@ public class NikoPlayer {
     private IPlayer mPlayer;
     private List<SimplePlayerListener> mPlayerListenerList;
     private PlayerEventDispatcher mPlayerEventDispatcher;
-    private BaseRenderLayout mPlayerLayout;
+    private BaseRenderLayout mRenderLayout;
     private BasePlayerControlView mControllerView;
     private DisplayModeController mDisplayModeController;
     private Builder mBuilder;
@@ -109,7 +109,7 @@ public class NikoPlayer {
      */
     public Bitmap capture() {
         checkPlayer();
-        return mPlayerLayout.capture();
+        return mRenderLayout.capture();
     }
 
     /**
@@ -177,15 +177,15 @@ public class NikoPlayer {
             throw new IllegalStateException("The player must be not null !");
         }
         mDisplayModeController = new DisplayModeController(mBuilder.mTinyWindowParamFactory);
-        mPlayerLayout = null;
+        mRenderLayout = null;
         mPlayerListenerList = new CopyOnWriteArrayList<>();
         mPlayerEventDispatcher = new PlayerEventDispatcher(mPlayerListenerList);
         mPlayerEventDispatcher.init(mPlayer);
         addPlayerListener(mPlayerListener);
         mControllerView = mBuilder.mControllerView;
         setPlayerControllerView(mControllerView);
-        mPlayerLayout = mBuilder.mRenderLayout;
-        setPlayerLayout(mPlayerLayout);
+        mRenderLayout = mBuilder.mRenderLayout;
+        setPlayerLayout(mRenderLayout);
         setDataSource(mBuilder.mUrl);
         return this;
     }
@@ -201,9 +201,9 @@ public class NikoPlayer {
         }
         mBuilder = null;
         removePlayerControllerView();
-        if (mPlayerLayout != null) {
-            mPlayerLayout.dettachPlayer();
-            mPlayerLayout = null;
+        if (mRenderLayout != null) {
+            mRenderLayout.dettachPlayer();
+            mRenderLayout = null;
         }
         mDisplayModeController.release();
         mDisplayModeController = null;
@@ -338,11 +338,11 @@ public class NikoPlayer {
     @UiThread
     public NikoPlayer setPlayerLayout(final BaseRenderLayout layout) {
         checkPlayer();
-        mPlayerLayout = layout;
-        if (mPlayerLayout != null) {
-            mPlayerLayout.attachPlayer(mPlayer);
-            mPlayerLayout.setScaleMode(mBuilder.mScaleMode);
-            mPlayerLayout.updateImageSize(mVideoWidth, mVideoHeight);
+        mRenderLayout = layout;
+        if (mRenderLayout != null) {
+            mRenderLayout.attachPlayer(mPlayer);
+            mRenderLayout.setScaleMode(mBuilder.mScaleMode);
+            mRenderLayout.updateImageSize(mVideoWidth, mVideoHeight);
             mDisplayModeController.attachPlayerLayout(layout);
             setDisplayMode(mBuilder.mDisplayMode);
         }
@@ -382,9 +382,9 @@ public class NikoPlayer {
         if (mode != null) {
             mBuilder.mScaleMode = mode;
         }
-        if (mPlayerLayout != null && mode != null) {
-            mPlayerLayout.setScaleMode(mode);
-            mPlayerLayout.updateImageSize(mVideoWidth, mVideoHeight);
+        if (mRenderLayout != null && mode != null) {
+            mRenderLayout.setScaleMode(mode);
+            mRenderLayout.updateImageSize(mVideoWidth, mVideoHeight);
         }
         return this;
     }
@@ -403,8 +403,8 @@ public class NikoPlayer {
         if (height != 0) {
             mVideoHeight = height;
         }
-        if (mPlayerLayout != null) {
-            mPlayerLayout.updateImageSize(mVideoWidth, mVideoHeight);
+        if (mRenderLayout != null) {
+            mRenderLayout.updateImageSize(mVideoWidth, mVideoHeight);
         }
     }
 

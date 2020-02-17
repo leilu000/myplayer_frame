@@ -38,15 +38,6 @@ public abstract class BaseRenderLayout extends FrameLayout {
     }
 
     @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        if (getChildCount() > 1) {
-            throw new RuntimeException("The child count is more than one !");
-        }
-
-    }
-
-    @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         super.onLayout(changed, left, top, right, bottom);
         if (getChildCount() == 0 || (mImageWidth == 0 || mImageHeight == 0)) {
@@ -65,11 +56,6 @@ public abstract class BaseRenderLayout extends FrameLayout {
         childView.layout(size.x, size.y, size.x + size.width, size.y + size.height);
     }
 
-    @Override
-    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-        super.onSizeChanged(w, h, oldw, oldh);
-
-    }
 
     @UiThread
     protected void setScaleMode(ViewScaleUtil.ScaleMode mode, int imageWidth, int imageHeight) {
