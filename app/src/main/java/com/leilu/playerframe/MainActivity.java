@@ -1,6 +1,5 @@
 package com.leilu.playerframe;
 
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -14,12 +13,12 @@ import player.bean.DisplayMode;
 import player.bean.SimplePlayerListener;
 import player.manager.NikoPlayer;
 import player.util.ViewScaleUtil;
-import player.view.TexturePlayerLayout;
+import player.view.TextureRenderLayout;
 
 public class MainActivity extends AppCompatActivity {
 
     private NikoPlayer mPlayer;
-    private TexturePlayerLayout mTexturePlayerLayout;
+    private TextureRenderLayout mTexturePlayerLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

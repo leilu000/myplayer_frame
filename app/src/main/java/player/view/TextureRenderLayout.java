@@ -16,21 +16,21 @@ import player.base.inter.IPlayer;
  * 自带的播放器渲染载体，如果需要自定义则参考此类继承BasePlayerLayout
  * Created by ll on 2019/12/6.
  */
-public class TexturePlayerLayout extends BaseRenderLayout implements TextureView.SurfaceTextureListener {
+public class TextureRenderLayout extends BaseRenderLayout implements TextureView.SurfaceTextureListener {
 
     private Surface mSurface;
     private SurfaceTexture mSurfaceTexture;
     private TextureView mTextureView;
 
-    public TexturePlayerLayout(Context context) {
+    public TextureRenderLayout(Context context) {
         this(context, null);
     }
 
-    public TexturePlayerLayout(Context context, AttributeSet attrs) {
+    public TextureRenderLayout(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public TexturePlayerLayout(Context context, AttributeSet attrs, int defStyleAttr) {
+    public TextureRenderLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         mTextureView = new TextureView(context);
         mTextureView.setSurfaceTextureListener(this);
