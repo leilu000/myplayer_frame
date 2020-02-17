@@ -1,5 +1,7 @@
 package player.manager;
 
+import android.graphics.Bitmap;
+
 import androidx.annotation.UiThread;
 
 import com.leilu.playerframe.BaseApplication;
@@ -8,7 +10,7 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import player.base.BasePlayerControlView;
-import player.base.BasePlayerLayout;
+import player.base.BaseRenderLayout;
 import player.base.inter.IPlayer;
 import player.base.inter.IPlayerFactory;
 import player.base.inter.ITinyWindowParamFactory;
@@ -28,7 +30,7 @@ public class NikoPlayer {
     private IPlayer mPlayer;
     private List<SimplePlayerListener> mPlayerListenerList;
     private PlayerEventDispatcher mPlayerEventDispatcher;
-    private BasePlayerLayout mPlayerLayout;
+    private BaseRenderLayout mPlayerLayout;
     private BasePlayerControlView mControllerView;
     private DisplayModeController mDisplayModeController;
     private Builder mBuilder;
@@ -97,6 +99,17 @@ public class NikoPlayer {
             return true;
         }
         return false;
+    }
+
+
+    /**
+     * 截图，截图失败返回空
+     *
+     * @return
+     */
+    public Bitmap capture() {
+        checkPlayer();
+        return mPlayerLayout.capture();
     }
 
     /**
@@ -171,7 +184,7 @@ public class NikoPlayer {
         addPlayerListener(mPlayerListener);
         mControllerView = mBuilder.mControllerView;
         setPlayerControllerView(mControllerView);
-        mPlayerLayout = mBuilder.mPlayerLayout;
+        mPlayerLayout = mBuilder.mRenderLayout;
         setPlayerLayout(mPlayerLayout);
         setDataSource(mBuilder.mUrl);
         return this;
@@ -323,7 +336,7 @@ public class NikoPlayer {
      * @param layout
      */
     @UiThread
-    public NikoPlayer setPlayerLayout(final BasePlayerLayout layout) {
+    public NikoPlayer setPlayerLayout(final BaseRenderLayout layout) {
         checkPlayer();
         mPlayerLayout = layout;
         if (mPlayerLayout != null) {
@@ -414,7 +427,7 @@ public class NikoPlayer {
         // 音量
         private float mVolume = 1.0f;
         // 播放器渲染载体
-        private BasePlayerLayout mPlayerLayout;
+        private BaseRenderLayout mRenderLayout;
         // 缩放模式
         private ViewScaleUtil.ScaleMode mScaleMode;
         // 播放器控制View
@@ -630,8 +643,8 @@ public class NikoPlayer {
          * @param layout
          */
         @UiThread
-        public Builder setPlayerLayout(BasePlayerLayout layout) {
-            mPlayerLayout = layout;
+        public Builder setRenderLayout(BaseRenderLayout layout) {
+            mRenderLayout = layout;
             return this;
         }
 

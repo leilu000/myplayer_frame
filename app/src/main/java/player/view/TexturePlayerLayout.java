@@ -1,14 +1,14 @@
 package player.view;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.SurfaceTexture;
 import android.os.Build;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.Surface;
 import android.view.TextureView;
 
-import player.base.BasePlayerLayout;
+import player.base.BaseRenderLayout;
 import player.base.inter.IPlayer;
 
 
@@ -16,7 +16,7 @@ import player.base.inter.IPlayer;
  * 自带的播放器渲染载体，如果需要自定义则参考此类继承BasePlayerLayout
  * Created by ll on 2019/12/6.
  */
-public class TexturePlayerLayout extends BasePlayerLayout implements TextureView.SurfaceTextureListener {
+public class TexturePlayerLayout extends BaseRenderLayout implements TextureView.SurfaceTextureListener {
 
     private Surface mSurface;
     private SurfaceTexture mSurfaceTexture;
@@ -81,6 +81,11 @@ public class TexturePlayerLayout extends BasePlayerLayout implements TextureView
         if (mSurface != null) {
             mSurface.release();
         }
+    }
+
+    @Override
+    public Bitmap capture() {
+        return mTextureView.getBitmap();
     }
 
     @Override

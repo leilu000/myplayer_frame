@@ -1,9 +1,9 @@
 package player.base;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.util.AttributeSet;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.FrameLayout;
 
@@ -17,22 +17,22 @@ import player.util.ViewScaleUtil;
  * 播放器的渲染载体基类，所有的渲染载体都应该继承此类扩展
  * Created by ll on 2019/12/6.
  */
-public abstract class BasePlayerLayout extends FrameLayout {
+public abstract class BaseRenderLayout extends FrameLayout {
 
     private ViewScaleUtil.ScaleMode mScaleMode = ViewScaleUtil.ScaleMode.AspectFit;
     private int mImageWidth;
     private int mImageHeight;
     protected IPlayer mPlayer;
 
-    public BasePlayerLayout(Context context) {
+    public BaseRenderLayout(Context context) {
         this(context, null);
     }
 
-    public BasePlayerLayout(Context context, AttributeSet attrs) {
+    public BaseRenderLayout(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public BasePlayerLayout(Context context, AttributeSet attrs, int defStyleAttr) {
+    public BaseRenderLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         setBackgroundColor(Color.BLACK);
     }
@@ -99,4 +99,6 @@ public abstract class BasePlayerLayout extends FrameLayout {
     public void dettachPlayer() {
         mPlayer = null;
     }
+
+    public abstract Bitmap capture();
 }

@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import player.base.BasePlayerControlView;
-import player.base.BasePlayerLayout;
+import player.base.BaseRenderLayout;
 import player.base.inter.ITinyWindowParamFactory;
 import player.bean.DisplayMode;
 import player.util.Utils;
@@ -28,7 +28,7 @@ public class DisplayModeController {
         mTinyWindowParamFactory = tinyWindowParamFactory;
     }
 
-    public void attachPlayerLayout(BasePlayerLayout layout) {
+    public void attachPlayerLayout(BaseRenderLayout layout) {
         mPlayerLayoutContainerInfo = createContainerInfo(layout);
     }
 

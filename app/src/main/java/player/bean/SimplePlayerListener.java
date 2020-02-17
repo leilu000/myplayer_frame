@@ -1,5 +1,7 @@
 package player.bean;
 
+import android.graphics.Bitmap;
+
 import player.base.inter.IPlayerListener;
 
 /**

@@ -1,5 +1,6 @@
 package player.manager;
 
+import android.graphics.Bitmap;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;

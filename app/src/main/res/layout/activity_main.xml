@@ -13,6 +13,11 @@
         android:layout_height="0dp"
         android:layout_weight="1" />
 
+    <ImageView
+        android:id="@+id/iv"
+        android:layout_width="100dp"
+        android:layout_height="100dp" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -40,6 +45,14 @@
             android:layout_weight="1"
             android:onClick="changeScale"
             android:text="缩放模式" />
+
+        <Button
+            android:id="@+id/btn_capture"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="capture"
+            android:text="截图" />
 
 
     </LinearLayout>

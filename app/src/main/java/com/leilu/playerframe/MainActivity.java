@@ -1,9 +1,11 @@
 package com.leilu.playerframe;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -39,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
                 .setDisplayMode(DisplayMode.PORTRAIT_FULL_SCREEN)
                 .setIsHardDecode(true)
                 .setIsStartOnPrepared(true)
-                .setPlayerLayout(mTexturePlayerLayout)
+                .setRenderLayout(mTexturePlayerLayout)
                 .setLoop(true)
                 .setPlayerType(IPlayerFactory.PlayerType.ANDROID_MEDIA_PLAYER)
                 .setDataSource(url)
@@ -90,6 +92,16 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
         super.onBackPressed();
+    }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mPlayer.release();
+    }
+
+    public void capture(View view) {
+        final ImageView iv = findViewById(R.id.iv);
+        iv.setImageBitmap(mPlayer.capture());
     }
 }
