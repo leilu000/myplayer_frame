@@ -36,7 +36,6 @@ public class AndroidPlayer extends BasePlayer {
     private void initPlayer() {
         mPlayer = new MediaPlayer();
         mPlayer.setScreenOnWhilePlaying(true);
-        mPlayer.setLooping(mPlayerParam.mIsLoop);
         mPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
     }
 
@@ -108,6 +107,10 @@ public class AndroidPlayer extends BasePlayer {
         mPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mp) {
+                if (mPlayerParam.mIsLoop) {
+                    mPlayer.start();
+                    return;
+                }
                 notifyComplete();
             }
         });

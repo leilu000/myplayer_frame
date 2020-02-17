@@ -34,6 +34,7 @@ public class NikoPlayer {
     private Builder mBuilder;
     private int mVideoWidth;
     private int mVideoHeight;
+    private String mDataSource;
 
     private NikoPlayer(Builder builder) {
         mBuilder = builder;
@@ -172,6 +173,7 @@ public class NikoPlayer {
         setPlayerControllerView(mControllerView);
         mPlayerLayout = mBuilder.mPlayerLayout;
         setPlayerLayout(mPlayerLayout);
+        setDataSource(mBuilder.mUrl);
         return this;
     }
 
@@ -213,11 +215,14 @@ public class NikoPlayer {
      */
     public NikoPlayer setDataSource(String path) {
         checkPlayer();
-        if (mBuilder.mIsUseCache) {
-            HttpProxyCacheUtil.getInstance().init(mBuilder.mHttpProxyCacheServerBuilder);
-            path = HttpProxyCacheUtil.getInstance().getCacheServer().getProxyUrl(path);
+        if (mDataSource == null) {
+            if (mBuilder.mIsUseCache) {
+                HttpProxyCacheUtil.getInstance().init(mBuilder.mHttpProxyCacheServerBuilder);
+                path = HttpProxyCacheUtil.getInstance().getCacheServer().getProxyUrl(path);
+            }
+            mPlayer.setDataSource(path);
+            mDataSource = path;
         }
-        mPlayer.setDataSource(path);
         return this;
     }
 
@@ -329,7 +334,7 @@ public class NikoPlayer {
             setDisplayMode(mBuilder.mDisplayMode);
         }
         return this;
-}
+    }
 
     /**
      * 设置音量
@@ -421,14 +426,16 @@ public class NikoPlayer {
         // 遇到错误后重连间隔时间(S)
         private int mReconnectTime = 5;
         // 是否硬解
-        private boolean mIsHardDecode;
+        private boolean mIsHardDecode = true;
         // 缓冲区大小,默认是500k
         private int mMaxBufferSize = 500 * 1024;
         // 多少帧以后开始播放，默认是100帧
         private int mMinFrames = 100;
+        // 播放地址
+        private String mUrl;
 
         public Builder() {
-            mPlayerType = IPlayerFactory.PlayerType.IJK_PLAYER;
+            mPlayerType = IPlayerFactory.PlayerType.ANDROID_MEDIA_PLAYER;
             mPlayerFactory = new PlayerFactoryImpl();
             mTinyWindowParamFactory = new TinyWindowParamFactoryImpl();
             mScaleMode = ViewScaleUtil.ScaleMode.AspectFit;
@@ -449,6 +456,12 @@ public class NikoPlayer {
             return this;
         }
 
+        /**
+         * 设置使用哪种播放器，默认是  ANDROID_MEDIA_PLAYER
+         *
+         * @param type
+         * @return
+         */
         public Builder setPlayerType(IPlayerFactory.PlayerType type) {
             if (type != null) {
                 mPlayerType = type;
@@ -479,7 +492,7 @@ public class NikoPlayer {
         }
 
         /**
-         * 设置最小多少帧以后开始播放
+         * 设置最小多少帧以后开始播放，目前只有 IJK_PLAYER 支持
          *
          * @param minFrames
          * @return
@@ -490,7 +503,7 @@ public class NikoPlayer {
         }
 
         /**
-         * 设置缓冲区大小
+         * 设置缓冲区大小，目前只有 IJK_PLAYER 支持
          *
          * @param size
          * @return
@@ -501,7 +514,7 @@ public class NikoPlayer {
         }
 
         /**
-         * 设置是否硬解，需要播放器支持
+         * 设置是否硬解(默认硬解)，需要播放器支持
          *
          * @param isHardDecode
          * @return
@@ -523,7 +536,7 @@ public class NikoPlayer {
         }
 
         /**
-         * 设置是否prepared后自动播放
+         * 设置是否prepared后自动播放，默认自动播放
          *
          * @param isStartOnPrepared
          * @return
@@ -534,7 +547,8 @@ public class NikoPlayer {
         }
 
         /**
-         * 设置播放器创建工厂
+         * 设置播放器创建工厂,如果有自定义的播放器，则设置次方法来
+         * 创建改播放器
          *
          * @param factory
          * @return
@@ -558,6 +572,25 @@ public class NikoPlayer {
             return this;
         }
 
+
+        /**
+         * 设置播放地址
+         *
+         * @param url
+         * @return
+         */
+        public Builder setDataSource(String url) {
+            mUrl = url;
+            return this;
+        }
+
+
+        /**
+         * 设置显示模式,默认是 PORTRAIT 模式
+         *
+         * @param mode
+         * @return
+         */
         @UiThread
         public Builder setDisplayMode(DisplayMode mode) {
             if (mode != null) {
@@ -567,7 +600,9 @@ public class NikoPlayer {
         }
 
         /**
-         * 设置创建小窗的LayoutParam的工厂
+         * 设置创建小窗的LayoutParam的工厂，主要用来
+         * 设置小窗模式的时候小窗的大小和位置,如果不设置
+         * 则小窗模式下是在右下角，屏幕的宽和60%和高的16:9的比例
          *
          * @param factory
          * @return
@@ -580,7 +615,7 @@ public class NikoPlayer {
         }
 
         /**
-         * 设置是否循环播放
+         * 设置是否循环播放,默认不循环
          *
          * @param isLoop
          */
@@ -627,6 +662,7 @@ public class NikoPlayer {
         public NikoPlayer create() {
             return new NikoPlayer(this);
         }
+
 
     }
 }

@@ -35,16 +35,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initPlayer() {
+        String url = "http://1259438468.vod2.myqcloud.com/6ac6c9d4vodcq1259438468/2dc46ae95285890798568929916/Grvg1EX8yAQA.mp4";
         mPlayer = new NikoPlayer.Builder()
                 .setDisplayMode(DisplayMode.PORTRAIT_FULL_SCREEN)
                 .setIsHardDecode(true)
                 .setIsStartOnPrepared(true)
                 .setPlayerLayout(mTexturePlayerLayout)
                 .setLoop(true)
-                .setPlayerType(IPlayerFactory.PlayerType.IJK_PLAYER)
+                .setPlayerType(IPlayerFactory.PlayerType.ANDROID_MEDIA_PLAYER)
+                .setDataSource(url)
                 .setScaleMode(ViewScaleUtil.ScaleMode.Fill)
                 .create();
-        mPlayer.setDataSource("http://1259438468.vod2.myqcloud.com/6ac6c9d4vodcq1259438468/2dc46ae95285890798568929916/Grvg1EX8yAQA.mp4");
         mPlayer.addPlayerListener(new SimplePlayerListener() {
             @Override
             public void onError(String msg, int type) {
