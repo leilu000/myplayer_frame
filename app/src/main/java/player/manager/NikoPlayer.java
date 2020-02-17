@@ -1,6 +1,7 @@
 package player.manager;
 
 import android.graphics.Bitmap;
+import android.util.Log;
 
 import androidx.annotation.UiThread;
 
@@ -36,6 +37,7 @@ public class NikoPlayer {
     private Builder mBuilder;
     private int mVideoWidth;
     private int mVideoHeight;
+    private int mVideoRotation;
     private String mDataSource;
 
     private NikoPlayer(Builder builder) {
@@ -345,6 +347,7 @@ public class NikoPlayer {
             mRenderLayout.updateImageSize(mVideoWidth, mVideoHeight);
             mDisplayModeController.attachPlayerLayout(layout);
             setDisplayMode(mBuilder.mDisplayMode);
+            onVideoRotationChanged(mVideoRotation);
         }
         return this;
     }
@@ -394,6 +397,12 @@ public class NikoPlayer {
         public void onVideoSizeChanged(int width, int height) {
             NikoPlayer.this.onVideoSizeChanged(width, height);
         }
+
+        @Override
+        public void onVideoRotationChanged(int rotation) {
+            mVideoRotation = rotation;
+            NikoPlayer.this.onVideoRotationChanged(rotation);
+        }
     };
 
     private synchronized void onVideoSizeChanged(int width, int height) {
@@ -408,6 +417,11 @@ public class NikoPlayer {
         }
     }
 
+    private synchronized void onVideoRotationChanged(int rotation) {
+        if (mRenderLayout != null) {
+            mRenderLayout.onVideoRotationChanged(rotation);
+        }
+    }
 
     public static class Builder {
         // 边下边播的配置

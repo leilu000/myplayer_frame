@@ -8,6 +8,13 @@ import player.bean.DisplayMode;
 public interface IPlayerListener {
 
     /**
+     * 当前视频角度发生变化
+     *
+     * @param rotation
+     */
+    void onVideoRotationChanged(int rotation);
+
+    /**
      * 当显示模式发声边改的时候回调
      *
      * @param orientation

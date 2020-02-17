@@ -1,5 +1,6 @@
 package player.player;
 
+import android.util.Log;
 import android.view.Surface;
 
 
@@ -80,6 +81,9 @@ public class IjkPlayer extends BasePlayer {
                         break;
                     case IjkMediaPlayer.MEDIA_INFO_BUFFERING_END:
                         notifyBufferingEnd();
+                        break;
+                    case IjkMediaPlayer.MEDIA_INFO_VIDEO_ROTATION_CHANGED:
+                        notifyVideoRotationChanged(extra);
                         break;
                 }
                 return false;

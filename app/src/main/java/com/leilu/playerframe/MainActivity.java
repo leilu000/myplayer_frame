@@ -39,14 +39,14 @@ public class MainActivity extends AppCompatActivity {
         url = "/sdcard/DCIM/Camera/VID_20200217_150849.mp4";// 横屏拍摄
         // url = "/sdcard/DCIM/Camera/VID_20200217_151125.mp4";// 竖屏拍摄
         mPlayer = new NikoPlayer.Builder()
-                .setDisplayMode(DisplayMode.PORTRAIT_FULL_SCREEN)
+                .setDisplayMode(DisplayMode.PORTRAIT)
                 .setIsHardDecode(true)
                 .setIsStartOnPrepared(true)
                 .setRenderLayout(mTexturePlayerLayout)
                 .setLoop(true)
                 .setPlayerType(IPlayerFactory.PlayerType.IJK_PLAYER)
                 .setDataSource(url)
-                .setScaleMode(ViewScaleUtil.ScaleMode.Fill)
+                .setScaleMode(ViewScaleUtil.ScaleMode.AspectFit)
                 .create();
         mPlayer.addPlayerListener(new SimplePlayerListener() {
             @Override
@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void changeScale(View view) {
         Button btn = (Button) view;
-        mPlayer.setScaleMode(ViewScaleUtil.ScaleMode.AspectFit);
+        mPlayer.setScaleMode(ViewScaleUtil.ScaleMode.Fill);
     }
 
     @Override

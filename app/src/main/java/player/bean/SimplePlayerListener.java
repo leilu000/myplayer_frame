@@ -10,6 +10,11 @@ import player.base.inter.IPlayerListener;
 public class SimplePlayerListener implements IPlayerListener {
 
     @Override
+    public void onVideoRotationChanged(int rotation) {
+
+    }
+
+    @Override
     public void onDisplayModeChanged(DisplayMode orientation) {
 
     }

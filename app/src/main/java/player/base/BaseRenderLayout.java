@@ -4,6 +4,8 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.util.AttributeSet;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.FrameLayout;
 
@@ -23,6 +25,7 @@ public abstract class BaseRenderLayout extends FrameLayout {
     private int mImageWidth;
     private int mImageHeight;
     protected IPlayer mPlayer;
+    private int mVideoRotaion;
 
     public BaseRenderLayout(Context context) {
         this(context, null);
@@ -87,4 +90,29 @@ public abstract class BaseRenderLayout extends FrameLayout {
     }
 
     public abstract Bitmap capture();
+
+    @UiThread
+    public void onVideoRotationChanged(int rotation) {
+        if (mVideoRotaion != rotation) {
+            mVideoRotaion = rotation;
+            int width = getMeasuredWidth();
+            int height = getMeasuredHeight();
+            if (rotation == 90 || rotation == 270) {
+                int temp = width;
+                width = height;
+                height = temp;
+            }
+            View childView = getChildAt(0);
+            ViewScaleUtil.Size size = ViewScaleUtil.calcFitSize(mImageWidth, mImageHeight, width, height, mScaleMode);
+            FrameLayout.LayoutParams params = (LayoutParams) childView.getLayoutParams();
+            params.width = size.width;
+            params.height = size.height;
+            //  params.leftMargin = size.x;
+            //  params.topMargin = size.y;
+            params.gravity = Gravity.CENTER;
+            //  childView.layout(size.x, size.y, size.x + size.width, size.y + size.height);
+            childView.setLayoutParams(params);
+            childView.setRotation(rotation);
+        }
+    }
 }

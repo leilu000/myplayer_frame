@@ -166,6 +166,12 @@ public abstract class BasePlayer implements IPlayer {
         }
     }
 
+    protected void notifyVideoRotationChanged(int rotation) {
+        if (mListener != null) {
+            mListener.onVideoRotationChanged(rotation);
+        }
+    }
+
     protected void notifyPaused() {
         mState = PlayerState.PAUSED;
         if (mListener != null) {
