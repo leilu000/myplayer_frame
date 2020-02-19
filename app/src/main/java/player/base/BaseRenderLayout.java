@@ -94,6 +94,7 @@ public abstract class BaseRenderLayout extends FrameLayout {
     @UiThread
     public void onVideoRotationChanged(int rotation) {
         if (mVideoRotaion != rotation) {
+            Log.i("leilu", "onVideoRotationChanged,rotation:" + rotation);
             mVideoRotaion = rotation;
             int width = getMeasuredWidth();
             int height = getMeasuredHeight();
@@ -105,12 +106,9 @@ public abstract class BaseRenderLayout extends FrameLayout {
             View childView = getChildAt(0);
             ViewScaleUtil.Size size = ViewScaleUtil.calcFitSize(mImageWidth, mImageHeight, width, height, mScaleMode);
             FrameLayout.LayoutParams params = (LayoutParams) childView.getLayoutParams();
-            params.width = size.width;
-            params.height = size.height;
-            //  params.leftMargin = size.x;
-            //  params.topMargin = size.y;
+            params.width = 0;
+            params.height = 0;
             params.gravity = Gravity.CENTER;
-            //  childView.layout(size.x, size.y, size.x + size.width, size.y + size.height);
             childView.setLayoutParams(params);
             childView.setRotation(rotation);
         }

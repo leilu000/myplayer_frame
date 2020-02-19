@@ -8,8 +8,10 @@ import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import player.base.inter.IPlayer;
 import player.base.inter.IPlayerFactory;
 import player.bean.DisplayMode;
+import player.bean.PlayerParam;
 import player.bean.SimplePlayerListener;
 import player.manager.NikoPlayer;
 import player.util.ViewScaleUtil;
@@ -44,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
                 .setIsStartOnPrepared(true)
                 .setRenderLayout(mTexturePlayerLayout)
                 .setLoop(true)
+                .setIsUseCache(true)
                 .setPlayerType(IPlayerFactory.PlayerType.IJK_PLAYER)
                 .setDataSource(url)
                 .setScaleMode(ViewScaleUtil.ScaleMode.AspectFit)

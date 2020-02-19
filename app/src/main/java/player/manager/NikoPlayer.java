@@ -230,8 +230,8 @@ public class NikoPlayer {
      */
     public NikoPlayer setDataSource(String path) {
         checkPlayer();
-        if (mDataSource == null) {
-            if (mBuilder.mIsUseCache) {
+        if (mDataSource == null && path != null) {
+            if (mBuilder.mIsUseCache && path.startsWith("http://") || path.startsWith("https://")) {
                 HttpProxyCacheUtil.getInstance().init(mBuilder.mHttpProxyCacheServerBuilder);
                 path = HttpProxyCacheUtil.getInstance().getCacheServer().getProxyUrl(path);
             }
