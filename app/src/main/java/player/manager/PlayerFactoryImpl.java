@@ -12,6 +12,7 @@ import player.player.IjkPlayer;
 public class PlayerFactoryImpl implements IPlayerFactory {
 
 
+    @Override
     public IPlayer createPlayer(PlayerType type, PlayerParam playerParam) {
         IPlayer player;
         switch (type) {
