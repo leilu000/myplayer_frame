@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.media.AudioManager;
+import android.os.CountDownTimer;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,19 +20,18 @@ import androidx.annotation.UiThread;
 
 import com.leilu.playerframe.R;
 
-import java.util.concurrent.TimeUnit;
+import java.util.Timer;
+import java.util.TimerTask;
 
-import io.reactivex.Observable;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
 import player.bean.DisplayMode;
 import player.bean.PlayerState;
 import player.bean.SimplePlayerListener;
 import player.manager.NikoPlayer;
-import player.util.RxThreadComposeUtil;
 import player.util.Utils;
 
-
+/**
+ * Created by ll on 2019/12/5.
+ */
 public abstract class BasePlayerControlView extends FrameLayout implements View.OnTouchListener {
 
     private static final int DIRECTION_VERTICAL = 0;
@@ -43,8 +43,8 @@ public abstract class BasePlayerControlView extends FrameLayout implements View.
 
     protected View mRootView;
 
-    private Disposable mProgressTimer;
-    private Disposable mHideTimer;
+    private CountDownTimer mProgressTimer;
+    private CountDownTimer mHideTimer;
     private PlayerListener mPlayerListener;
     protected NikoPlayer mNikoPlayer;
     private int mScaledTouchSlop;
@@ -146,15 +146,15 @@ public abstract class BasePlayerControlView extends FrameLayout implements View.
 
 
     private void cancelProgressTimer() {
-        if (mProgressTimer != null && !mProgressTimer.isDisposed()) {
-            mProgressTimer.dispose();
+        if (mProgressTimer != null) {
+            mProgressTimer.cancel();
             mProgressTimer = null;
         }
     }
 
     private void cancelHideTimer() {
-        if (mHideTimer != null && !mHideTimer.isDisposed()) {
-            mHideTimer.dispose();
+        if (mHideTimer != null) {
+            mHideTimer.cancel();
             mHideTimer = null;
         }
     }
@@ -162,19 +162,18 @@ public abstract class BasePlayerControlView extends FrameLayout implements View.
     private void startProgressTimer() {
         cancelProgressTimer();
         if (getVisibility() == View.VISIBLE && isNeedStartProgressTimer()) {
-            mProgressTimer = Observable.interval(0, 1000, TimeUnit.MILLISECONDS)
-                    .compose(RxThreadComposeUtil.<Long>applySchedulers())
-                    .subscribe(new Consumer<Long>() {
-                        @Override
-                        public void accept(Long aLong) throws Exception {
-                            onProgressChanged(mNikoPlayer.getDuration(), mNikoPlayer.getProgress());
-                        }
-                    }, new Consumer<Throwable>() {
-                        @Override
-                        public void accept(Throwable throwable) throws Exception {
-                            throwable.printStackTrace();
-                        }
-                    });
+            mProgressTimer = new CountDownTimer(1000, Integer.MAX_VALUE) {
+                @Override
+                public void onTick(long millisUntilFinished) {
+
+                }
+
+                @Override
+                public void onFinish() {
+                    onProgressChanged(mNikoPlayer.getDuration(), mNikoPlayer.getProgress());
+                }
+            };
+            mProgressTimer.start();
         }
     }
 
@@ -184,19 +183,18 @@ public abstract class BasePlayerControlView extends FrameLayout implements View.
         }
         cancelHideTimer();
         if (getVisibility() == View.VISIBLE && isNeedStartProgressTimer()) {
-            mHideTimer = Observable.timer(2, TimeUnit.SECONDS)
-                    .compose(RxThreadComposeUtil.<Long>applySchedulers())
-                    .subscribe(new Consumer<Long>() {
-                        @Override
-                        public void accept(Long aLong) throws Exception {
-                            hide();
-                        }
-                    }, new Consumer<Throwable>() {
-                        @Override
-                        public void accept(Throwable throwable) throws Exception {
-                            throwable.printStackTrace();
-                        }
-                    });
+            mHideTimer = new CountDownTimer(2000, 1) {
+
+                @Override
+                public void onTick(long millisUntilFinished) {
+                }
+
+                @Override
+                public void onFinish() {
+                    hide();
+                }
+            };
+            mHideTimer.start();
         }
     }
 

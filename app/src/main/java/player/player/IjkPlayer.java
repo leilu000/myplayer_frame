@@ -1,8 +1,6 @@
 package player.player;
 
-import android.util.Log;
 import android.view.Surface;
-
 
 import java.io.IOException;
 

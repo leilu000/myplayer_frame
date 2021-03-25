@@ -20,6 +20,7 @@ import player.util.TimeUtil;
 
 /**
  * 自带的播放器控制试图,如果需要创建自己的UI试图，则参考此类继承BasePlayerControlView即可
+ * Created by ll on 2019/12/5.
  */
 public class PlayerControlView extends BasePlayerControlView implements View.OnClickListener {
 

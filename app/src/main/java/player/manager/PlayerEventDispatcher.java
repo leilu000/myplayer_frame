@@ -1,11 +1,9 @@
 package player.manager;
 
-import android.graphics.Bitmap;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.text.TextUtils;
-import android.util.Log;
 
 import java.util.List;
 
@@ -33,7 +31,7 @@ public class PlayerEventDispatcher {
     private static final int EVENT_ON_BUFFERING_END = -1009;
     private static final int EVENT_ON_VIDEO_SIZE_CHANGED = -1010;
     private static final int EVENT_ON_STOPPED = -1011;
-    private static final int EVENT_ON_VIDEO_RPTATION_CHANGED = -1012;
+    private static final int EVENT_ON_VIDEO_ROTATION_CHANGED = -1012;
 
     private List<SimplePlayerListener> mListenerList;
     private IPlayer mPlayer;
@@ -78,7 +76,7 @@ public class PlayerEventDispatcher {
                 case EVENT_ON_VIDEO_SIZE_CHANGED:
                     notifyVideoSizeChanged(msg.arg1, msg.arg2);
                     break;
-                case EVENT_ON_VIDEO_RPTATION_CHANGED:
+                case EVENT_ON_VIDEO_ROTATION_CHANGED:
                     notifyVideoRotationChanged(msg.arg1);
                     break;
             }
@@ -198,7 +196,7 @@ public class PlayerEventDispatcher {
         @Override
         public void onVideoRotationChanged(int rotation) {
             Message message = Message.obtain();
-            message.what = EVENT_ON_VIDEO_RPTATION_CHANGED;
+            message.what = EVENT_ON_VIDEO_ROTATION_CHANGED;
             message.arg1 = rotation;
             mHandler.sendMessage(message);
         }
