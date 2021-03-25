@@ -22,7 +22,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-    ndkVersion '23.0.7123448 rc1'
+    //ndkVersion '23.0.7123448 rc1'
 }
 
 dependencies {
