@@ -49,7 +49,12 @@ public class DisplayModeController {
         mPlayerControlViewContainerInfo = null;
     }
 
-    // 设置显示模式
+    /**
+     * 设置显示模式
+     *
+     * @param mode
+     * @return
+     */
     public boolean setDisplayMode(DisplayMode mode) {
         if (mode == null) {
             Log.i("leilu", "setDisplayMode mode:" + mode + "   mDisplayMode:" + mDisplayMode);
@@ -67,7 +72,11 @@ public class DisplayModeController {
         return true;
     }
 
-    // 开启竖屏全屏
+    /**
+     * 开启竖屏全屏
+     *
+     * @param mode
+     */
     private void enterPortraitFullScreen(DisplayMode mode) {
         if (mPlayerLayoutContainerInfo != null) {
             changeToPortraitFullScreen(mPlayerLayoutContainerInfo, mode);
@@ -77,7 +86,11 @@ public class DisplayModeController {
         }
     }
 
-    // 开启Activity内小窗模式
+    /**
+     * 开启Activity内小窗模式
+     *
+     * @param mode
+     */
     private void enterActivityTinyWindow(DisplayMode mode) {
         if (mPlayerLayoutContainerInfo != null) {
             changeToTinyWindow(mPlayerLayoutContainerInfo, mode);
@@ -87,7 +100,11 @@ public class DisplayModeController {
         }
     }
 
-    // 开启横屏
+    /**
+     * 开启横屏
+     *
+     * @param mode
+     */
     private void enterLandscape(DisplayMode mode) {
         if (mPlayerLayoutContainerInfo != null) {
             changeToLandscape(mPlayerLayoutContainerInfo, mode);
@@ -97,7 +114,11 @@ public class DisplayModeController {
         }
     }
 
-    // 开启竖屏
+    /**
+     * 开启竖屏
+     *
+     * @param mode
+     */
     private void enterPortrait(DisplayMode mode) {
         if (mPlayerLayoutContainerInfo != null) {
             changeToPortrait(mPlayerLayoutContainerInfo, mode);

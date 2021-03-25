@@ -20,9 +20,6 @@ import androidx.annotation.UiThread;
 
 import com.leilu.playerframe.R;
 
-import java.util.Timer;
-import java.util.TimerTask;
-
 import player.bean.DisplayMode;
 import player.bean.PlayerState;
 import player.bean.SimplePlayerListener;
@@ -32,7 +29,7 @@ import player.util.Utils;
 /**
  * Created by ll on 2019/12/5.
  */
-public abstract class BasePlayerControlView extends FrameLayout implements View.OnTouchListener {
+public abstract class BasePlayerControlView extends FrameLayout {
 
     private static final int DIRECTION_VERTICAL = 0;
     private static final int DIRECTION_HORIZONTAL = 1;
@@ -71,7 +68,6 @@ public abstract class BasePlayerControlView extends FrameLayout implements View.
         mCurrentBrightness = Utils.getScreenBrightness();
         initAttrs(attrs);
         initView();
-        setOnTouchListener(this);
         hide();
     }
 
@@ -305,6 +301,11 @@ public abstract class BasePlayerControlView extends FrameLayout implements View.
 
         @Override
         public void onDisplayModeChanged(DisplayMode orientation) {
+            if (orientation == DisplayMode.INNER_ACTIVITY_TINY_WINDOW) {
+                setVisibility(View.INVISIBLE);
+            } else {
+                setVisibility(View.VISIBLE);
+            }
             BasePlayerControlView.this.onDisplayModeChanged(orientation);
         }
 
@@ -350,9 +351,8 @@ public abstract class BasePlayerControlView extends FrameLayout implements View.
     private float mDY;
     private float mDX;
 
-    @Override
     public boolean onTouch(View v, MotionEvent event) {
-        if (mNikoPlayer == null) {
+        if (mNikoPlayer == null || mNikoPlayer.getDisplayMode() == DisplayMode.INNER_ACTIVITY_TINY_WINDOW) {
             return false;
         }
         switch (event.getAction()) {

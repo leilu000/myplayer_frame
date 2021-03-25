@@ -80,6 +80,9 @@ public class NikoPlayer {
         if (mode != null) {
             mBuilder.mDisplayMode = mode;
         }
+        if (mRenderLayout != null) {
+            mRenderLayout.setDisplayMode(mBuilder.mDisplayMode);
+        }
         if (mDisplayModeController.setDisplayMode(mode)) {
             if (mControllerView != null) {
                 mControllerView.attachPlayerMgr(this);
@@ -345,7 +348,11 @@ public class NikoPlayer {
             mRenderLayout.attachPlayer(mPlayer);
             mRenderLayout.setScaleMode(mBuilder.mScaleMode);
             mRenderLayout.updateImageSize(mVideoWidth, mVideoHeight);
-            mDisplayModeController.attachPlayerLayout(layout);
+            mRenderLayout.setOnTouchListener(new TinyWindowTouchController(mPlayer, mControllerView, mRenderLayout));
+            if (mRenderLayout != null) {
+                mRenderLayout.setDisplayMode(mBuilder.mDisplayMode);
+            }
+            mDisplayModeController.attachPlayerLayout(mRenderLayout);
             setDisplayMode(mBuilder.mDisplayMode);
             onVideoRotationChanged(mVideoRotation);
         }

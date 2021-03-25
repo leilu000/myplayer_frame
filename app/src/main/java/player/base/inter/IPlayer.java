@@ -3,6 +3,7 @@ package player.base.inter;
 import android.view.Surface;
 
 
+import player.bean.DisplayMode;
 import player.bean.PlayerState;
 
 /**
@@ -107,4 +108,5 @@ public interface IPlayer {
      * @return
      */
     PlayerState getState();
+
 }

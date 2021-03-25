@@ -6,12 +6,14 @@ import android.graphics.Color;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 
 import androidx.annotation.UiThread;
 
 import player.base.inter.IPlayer;
+import player.bean.DisplayMode;
 import player.util.ViewScaleUtil;
 
 
@@ -26,6 +28,7 @@ public abstract class BaseRenderLayout extends FrameLayout {
     private int mImageHeight;
     protected IPlayer mPlayer;
     private int mVideoRotaion;
+    private DisplayMode mDisplayMode;
 
     public BaseRenderLayout(Context context) {
         this(context, null);
@@ -38,6 +41,10 @@ public abstract class BaseRenderLayout extends FrameLayout {
     public BaseRenderLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         setBackgroundColor(Color.BLACK);
+    }
+
+    public void setDisplayMode(DisplayMode displayMode) {
+        mDisplayMode = displayMode;
     }
 
     @Override
@@ -112,5 +119,12 @@ public abstract class BaseRenderLayout extends FrameLayout {
             childView.setLayoutParams(params);
             childView.setRotation(rotation);
         }
+    }
+
+    public boolean onTouch(View v, MotionEvent event) {
+        if (mDisplayMode != DisplayMode.INNER_ACTIVITY_TINY_WINDOW) {
+            return false;
+        }
+        return true;
     }
 }

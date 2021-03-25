@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 
 import player.base.inter.IPlayer;
 import player.base.inter.IPlayerListener;
+import player.bean.DisplayMode;
 import player.bean.PlayerParam;
 import player.bean.PlayerState;
 
