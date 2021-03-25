@@ -14,12 +14,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <com.maileji.libcommon.views.CommonLoadingView
+        <ImageView
             android:id="@+id/iv_loading"
             android:layout_width="@dimen/dp45"
             android:layout_height="@dimen/dp45"
             android:layout_margin="@dimen/dp10"
-            app:BackGroundResId="@drawable/bg_video_controller_loading" />
+            android:src="@mipmap/ic_launcher" />
     </FrameLayout>
 
 

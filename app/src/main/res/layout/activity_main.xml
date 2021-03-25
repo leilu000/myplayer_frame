@@ -7,11 +7,23 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <player.view.TextureRenderLayout
-        android:id="@+id/layout"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_weight="1">
+
+        <player.view.TextureRenderLayout
+            android:id="@+id/layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <player.view.PlayerControlView
+            android:id="@+id/pcv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </FrameLayout>
+
 
     <ImageView
         android:id="@+id/iv"
@@ -54,6 +66,12 @@
             android:onClick="capture"
             android:text="截图" />
 
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="render"
+            android:text="渲染" />
 
     </LinearLayout>
 

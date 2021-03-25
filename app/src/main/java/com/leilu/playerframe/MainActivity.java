@@ -15,18 +15,21 @@ import player.bean.PlayerParam;
 import player.bean.SimplePlayerListener;
 import player.manager.NikoPlayer;
 import player.util.ViewScaleUtil;
+import player.view.PlayerControlView;
 import player.view.TextureRenderLayout;
 
 public class MainActivity extends AppCompatActivity {
 
     private NikoPlayer mPlayer;
     private TextureRenderLayout mTexturePlayerLayout;
+    private PlayerControlView pcv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mTexturePlayerLayout = findViewById(R.id.layout);
+        pcv = findViewById(R.id.pcv);
         initPlayer();
 //        mTexturePlayerLayout.postDelayed(new Runnable() {
 //            @Override
@@ -38,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void initPlayer() {
         String url = "http://1259438468.vod2.myqcloud.com/6ac6c9d4vodcq1259438468/2dc46ae95285890798568929916/Grvg1EX8yAQA.mp4";
-        url = "/sdcard/DCIM/Camera/VID_20200217_150849.mp4";// 横屏拍摄
+        // url = "/sdcard/DCIM/Camera/VID_20200217_150849.mp4";// 横屏拍摄
         // url = "/sdcard/DCIM/Camera/VID_20200217_151125.mp4";// 竖屏拍摄
         mPlayer = new NikoPlayer.Builder()
                 .setDisplayMode(DisplayMode.PORTRAIT)
@@ -49,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
                 .setIsUseCache(true)
                 .setPlayerType(IPlayerFactory.PlayerType.IJK_PLAYER)
                 .setDataSource(url)
+                .setPlayerControllerView(pcv)
                 .setScaleMode(ViewScaleUtil.ScaleMode.AspectFit)
                 .create();
         mPlayer.addPlayerListener(new SimplePlayerListener() {
@@ -107,5 +111,9 @@ public class MainActivity extends AppCompatActivity {
     public void capture(View view) {
         final ImageView iv = findViewById(R.id.iv);
         iv.setImageBitmap(mPlayer.capture());
+    }
+
+    public void render(View view) {
+        mPlayer.setPlayerLayout(mTexturePlayerLayout);
     }
 }

@@ -24,7 +24,7 @@ import player.util.TimeUtil;
 public class PlayerControlView extends BasePlayerControlView implements View.OnClickListener {
 
     private ImageView mIvPlay;
-    private CommonLoadingView mIvLoading;
+    private ImageView mIvLoading;
     private ImageView mIvScreenOrientation;
     private SeekBar mSbProgress;
     private TextView mTvDuration;
