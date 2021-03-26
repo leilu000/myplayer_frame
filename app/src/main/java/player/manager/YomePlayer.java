@@ -14,6 +14,7 @@ import player.base.BaseRenderLayout;
 import player.base.inter.IPlayer;
 import player.base.inter.IPlayerFactory;
 import player.base.inter.ITinyWindowParamFactory;
+import player.base.inter.OnTinyWindowClickListener;
 import player.bean.DisplayMode;
 import player.bean.PlayerParam;
 import player.bean.PlayerState;
@@ -42,6 +43,20 @@ public class YomePlayer {
     private YomePlayer(Builder builder) {
         mBuilder = builder;
         init();
+    }
+
+    /**
+     * 设置悬浮窗点击事件
+     *
+     * @param listener
+     * @return
+     */
+    public YomePlayer setTinyWindowClickListener(OnTinyWindowClickListener listener) {
+        mBuilder.mOnTinyWindowClickListener = listener;
+        if (mRenderLayout != null) {
+            mRenderLayout.setTinyWindowClickListener(listener);
+        }
+        return this;
     }
 
     /**
@@ -220,7 +235,7 @@ public class YomePlayer {
         mBuilder = null;
         removePlayerControllerView();
         if (mRenderLayout != null) {
-            mRenderLayout.dettachPlayer();
+            mRenderLayout.detachPlayer();
             mRenderLayout = null;
         }
         mDisplayModeController.release();
@@ -364,6 +379,7 @@ public class YomePlayer {
             mRenderLayout.setOnTouchListener(new TinyWindowTouchController(mPlayer, mControllerView, mRenderLayout));
             mRenderLayout.setDisplayMode(mBuilder.mDisplayMode);
             mRenderLayout.setSaveTinyWindowPosition(mBuilder.mSaveTinyWindowPosition);
+            mRenderLayout.setTinyWindowClickListener(mBuilder.mOnTinyWindowClickListener);
             mDisplayModeController.attachPlayerLayout(mRenderLayout);
             setDisplayMode(mBuilder.mDisplayMode);
             onVideoRotationChanged(mVideoRotation);
@@ -481,6 +497,8 @@ public class YomePlayer {
         private String mUrl;
         // 小窗模式下，是否记住上次小窗拖动的位置
         private boolean mSaveTinyWindowPosition;
+        // 悬浮窗点击事件
+        private OnTinyWindowClickListener mOnTinyWindowClickListener;
 
         public Builder() {
             mPlayerType = IPlayerFactory.PlayerType.ANDROID_MEDIA_PLAYER;
@@ -722,6 +740,15 @@ public class YomePlayer {
             return new YomePlayer(this);
         }
 
-
+        /**
+         * 设置悬浮窗点击事件
+         *
+         * @param listener
+         * @return
+         */
+        public Builder setTinyWindowClickListener(OnTinyWindowClickListener listener) {
+            mOnTinyWindowClickListener = listener;
+            return this;
+        }
     }
 }

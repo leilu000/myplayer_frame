@@ -7,6 +7,9 @@ import android.view.View;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.imuxuan.floatingview.FloatingMagnetView;
+import com.imuxuan.floatingview.FloatingView;
+
 /**
  * PlayerFrame
  *
@@ -28,11 +31,28 @@ public class HomeActivity extends AppCompatActivity {
         getSupportActionBar().hide();
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        FloatingView.get().attach(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        FloatingView.get().detach(this);
+    }
+
     public void main(View view) {
         startActivity(new Intent(this, MainActivity.class));
     }
 
     public void test(View view) {
         startActivity(new Intent(this, TestActivity.class));
+    }
+
+    public void float_window(View v) {
+        FloatingView.get().add();
+
     }
 }

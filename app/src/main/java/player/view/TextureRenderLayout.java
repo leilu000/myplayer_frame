@@ -72,8 +72,8 @@ public class TextureRenderLayout extends BaseRenderLayout implements TextureView
     }
 
     @Override
-    public void dettachPlayer() {
-        super.dettachPlayer();
+    public void detachPlayer() {
+        super.detachPlayer();
         if (mSurfaceTexture != null) {
             mSurfaceTexture.release();
             mSurfaceTexture = null;

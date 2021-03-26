@@ -1,17 +1,14 @@
 package com.leilu.playerframe;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import player.base.inter.IPlayerFactory;
+import player.base.inter.OnTinyWindowClickListener;
 import player.bean.DisplayMode;
 import player.bean.SimplePlayerListener;
 import player.manager.YomePlayer;
@@ -23,19 +20,15 @@ public class MainActivity extends AppCompatActivity {
 
     private YomePlayer mPlayer;
     private TextureRenderLayout mTexturePlayerLayout;
-    private PlayerControlView pcv;
+    private PlayerControlView mControlView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
-
-
         setContentView(R.layout.activity_main);
         getSupportActionBar().hide();
-
         mTexturePlayerLayout = findViewById(R.id.layout);
-        pcv = findViewById(R.id.pcv);
+        mControlView = findViewById(R.id.pcv);
         initPlayer();
 //        mTexturePlayerLayout.postDelayed(new Runnable() {
 //            @Override
@@ -54,13 +47,24 @@ public class MainActivity extends AppCompatActivity {
                 .setIsHardDecode(true)
                 .setIsStartOnPrepared(true)
                 .setRenderLayout(mTexturePlayerLayout)
+                .setPlayerControllerView(mControlView)
                 .setLoop(true)
                 .setSaveTinyWindowPosition(true)
                 .setIsUseCache(true)
                 .setPlayerType(IPlayerFactory.PlayerType.IJK_PLAYER)
                 .setDataSource(url)
-                .setPlayerControllerView(pcv)
                 .setScaleMode(ViewScaleUtil.ScaleMode.AspectFit)
+                .setTinyWindowClickListener(new OnTinyWindowClickListener() {
+                    @Override
+                    public void onSingleClick() {
+                        Log.i("==", "点击了");
+                    }
+
+                    @Override
+                    public void onDoubleClick() {
+                        Log.i("==", "双击了");
+                    }
+                })
                 .create();
         mPlayer.addPlayerListener(new SimplePlayerListener() {
             @Override

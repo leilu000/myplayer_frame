@@ -19,4 +19,11 @@
         android:onClick="test"
         android:text="test" />
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="float_window"
+        android:text="float_window" />
+
+
 </LinearLayout>

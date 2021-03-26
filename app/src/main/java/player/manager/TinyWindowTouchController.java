@@ -45,4 +45,5 @@ public class TinyWindowTouchController implements View.OnTouchListener {
         }
         return mPlayerControlView != null && mPlayerControlView.onTouch(v, event);
     }
+
 }

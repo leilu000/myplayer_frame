@@ -1,7 +1,6 @@
 package player.base;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.util.AttributeSet;
@@ -14,10 +13,11 @@ import android.widget.FrameLayout;
 import androidx.annotation.UiThread;
 
 import player.base.inter.IPlayer;
+import player.base.inter.OnTinyWindowClickListener;
 import player.bean.DisplayMode;
 import player.manager.Config;
-import player.manager.YomePlayer;
 import player.util.TinyWindowMoveHelper;
+import player.util.TouchClickHelper;
 import player.util.Utils;
 import player.util.ViewScaleUtil;
 
@@ -36,6 +36,8 @@ public abstract class BaseRenderLayout extends FrameLayout {
     private DisplayMode mDisplayMode;
     private TinyWindowMoveHelper mTinyWindowMoveHelper;
     private boolean mSaveTinyWindowPosition;
+    private TouchClickHelper mTouchClickHelper;
+    private OnTinyWindowClickListener mOnTinyWindowClickListener;
 
     public BaseRenderLayout(Context context) {
         this(context, null);
@@ -56,6 +58,10 @@ public abstract class BaseRenderLayout extends FrameLayout {
 
     public void setSaveTinyWindowPosition(boolean saveTinyWindowPosition) {
         mSaveTinyWindowPosition = saveTinyWindowPosition;
+    }
+
+    public void setTinyWindowClickListener(OnTinyWindowClickListener listener) {
+        mOnTinyWindowClickListener = listener;
     }
 
     @Override
@@ -101,11 +107,11 @@ public abstract class BaseRenderLayout extends FrameLayout {
     }
 
     public void attachPlayer(IPlayer player) {
-        dettachPlayer();
+        detachPlayer();
         mPlayer = player;
     }
 
-    public void dettachPlayer() {
+    public void detachPlayer() {
         mPlayer = null;
     }
 
@@ -134,20 +140,23 @@ public abstract class BaseRenderLayout extends FrameLayout {
         }
     }
 
-
     public boolean onTouch(View v, MotionEvent event) {
         if (mDisplayMode != DisplayMode.INNER_ACTIVITY_TINY_WINDOW) {
             return false;
         }
-        initTinyWindowMoveHelper();
+        mTouchClickHelper.onTouch(event);
+        initTinyWindowHelper();
         return mTinyWindowMoveHelper.onTouch(v, event);
     }
 
-    private void initTinyWindowMoveHelper() {
+    private void initTinyWindowHelper() {
         if (mTinyWindowMoveHelper == null) {
             int parentWidth = Utils.getScreenWidth();
             int parentHeight = Utils.getScreenHeight() + Utils.getStatusBarHeight();
             mTinyWindowMoveHelper = new TinyWindowMoveHelper(parentWidth, parentHeight, mTinyWindowListener);
+        }
+        if (mTouchClickHelper == null) {
+            mTouchClickHelper = new TouchClickHelper(mTouchClickHelperListener);
         }
     }
 
@@ -156,7 +165,7 @@ public abstract class BaseRenderLayout extends FrameLayout {
         super.onAttachedToWindow();
         if (mDisplayMode == DisplayMode.INNER_ACTIVITY_TINY_WINDOW) {
             final float[] savedPosition = Config.getInstance().getTinyWindowPosition();
-            initTinyWindowMoveHelper();
+            initTinyWindowHelper();
             mTinyWindowMoveHelper.move(this, savedPosition[0], savedPosition[1]);
 
         }
@@ -168,6 +177,9 @@ public abstract class BaseRenderLayout extends FrameLayout {
         if (mTinyWindowMoveHelper != null) {
             mTinyWindowMoveHelper.clear();
         }
+        if (mTouchClickHelper != null) {
+            mTouchClickHelper.release();
+        }
     }
 
     private void savePositionIfNeed() {
@@ -176,6 +188,21 @@ public abstract class BaseRenderLayout extends FrameLayout {
         }
     }
 
+    private TouchClickHelper.Listener mTouchClickHelperListener = new TouchClickHelper.Listener() {
+        @Override
+        public void onClick() {
+            if (mOnTinyWindowClickListener != null) {
+                mOnTinyWindowClickListener.onSingleClick();
+            }
+        }
+
+        @Override
+        public void onDoubleClick() {
+            if (mOnTinyWindowClickListener != null) {
+                mOnTinyWindowClickListener.onDoubleClick();
+            }
+        }
+    };
 
     private final TinyWindowMoveHelper.Listener mTinyWindowListener = new TinyWindowMoveHelper.Listener() {
         @Override
