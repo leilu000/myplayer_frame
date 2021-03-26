@@ -7,18 +7,18 @@ import android.view.Surface;
 
 import java.io.IOException;
 
-import player.base.BasePlayer;
+import player.base.BaseYomePlayer;
 import player.bean.PlayerParam;
 
 /**
  * 系统自带的MediaPlayer
  * Created by ll on 2019/12/5.
  */
-public class AndroidPlayer extends BasePlayer {
+public class AndroidYomePlayer extends BaseYomePlayer {
 
     private MediaPlayer mPlayer;
 
-    public AndroidPlayer(PlayerParam playerParam) {
+    public AndroidYomePlayer(PlayerParam playerParam) {
         super((playerParam));
     }
 

@@ -1,7 +1,6 @@
 package player.manager;
 
 import android.graphics.Bitmap;
-import android.util.Log;
 
 import androidx.annotation.UiThread;
 
@@ -26,7 +25,7 @@ import player.videocache.HttpProxyCacheServer;
  * 通过此类创建播放器
  * Created by ll on 2019/12/5.
  */
-public class NikoPlayer {
+public class YomePlayer {
 
     private IPlayer mPlayer;
     private List<SimplePlayerListener> mPlayerListenerList;
@@ -40,7 +39,7 @@ public class NikoPlayer {
     private int mVideoRotation;
     private String mDataSource;
 
-    private NikoPlayer(Builder builder) {
+    private YomePlayer(Builder builder) {
         mBuilder = builder;
         init();
     }
@@ -51,11 +50,11 @@ public class NikoPlayer {
      * @param view
      */
     @UiThread
-    public NikoPlayer setPlayerControllerView(final BasePlayerControlView view) {
+    public YomePlayer setPlayerControllerView(final BasePlayerControlView view) {
         removePlayerControllerView();
         mControllerView = view;
         if (mControllerView != null && mPlayer != null) {
-            mControllerView.attachPlayerMgr(NikoPlayer.this);
+            mControllerView.attachPlayerMgr(YomePlayer.this);
             mDisplayModeController.attachPlayerControllerView(view);
         }
         return this;
@@ -65,7 +64,7 @@ public class NikoPlayer {
      * 移除播放器控制View
      */
     @UiThread
-    public NikoPlayer removePlayerControllerView() {
+    public YomePlayer removePlayerControllerView() {
         if (mControllerView != null) {
             mControllerView.detachPlayerMgr();
             mControllerView = null;
@@ -123,7 +122,7 @@ public class NikoPlayer {
      * @param listener
      */
     @UiThread
-    public NikoPlayer addPlayerListener(SimplePlayerListener listener) {
+    public YomePlayer addPlayerListener(SimplePlayerListener listener) {
         if (listener != null && !mPlayerListenerList.contains(listener)) {
             mPlayerListenerList.add(listener);
             switch (getState()) {
@@ -158,7 +157,7 @@ public class NikoPlayer {
      * @param listener
      */
     @UiThread
-    public NikoPlayer removePlayerListener(SimplePlayerListener listener) {
+    public YomePlayer removePlayerListener(SimplePlayerListener listener) {
         mPlayerListenerList.remove(listener);
         return this;
     }
@@ -176,7 +175,7 @@ public class NikoPlayer {
     }
 
 
-    private NikoPlayer init() {
+    private YomePlayer init() {
         mPlayer = mBuilder.mPlayerFactory.createPlayer(mBuilder.mPlayerType, createPlayerParam());
         if (mPlayer == null) {
             throw new IllegalStateException("The player must be not null !");
@@ -231,7 +230,7 @@ public class NikoPlayer {
      *
      * @param path
      */
-    public NikoPlayer setDataSource(String path) {
+    public YomePlayer setDataSource(String path) {
         checkPlayer();
         if (mDataSource == null && path != null) {
             if (mBuilder.mIsUseCache && path.startsWith("http://") || path.startsWith("https://")) {
@@ -250,7 +249,7 @@ public class NikoPlayer {
      * @param isUseCache true，边下边播
      * @return
      */
-    public NikoPlayer setIsUseCache(boolean isUseCache) {
+    public YomePlayer setIsUseCache(boolean isUseCache) {
         mBuilder.mIsUseCache = isUseCache;
         return this;
     }
@@ -269,7 +268,7 @@ public class NikoPlayer {
      * 开始播放
      */
     @UiThread
-    public NikoPlayer start() {
+    public YomePlayer start() {
         checkPlayer();
         mPlayer.start();
         return this;
@@ -328,7 +327,7 @@ public class NikoPlayer {
      *
      * @param isLoop
      */
-    public NikoPlayer setLoop(boolean isLoop) {
+    public YomePlayer setLoop(boolean isLoop) {
         checkPlayer();
         mBuilder.mIsLoop = isLoop;
         mPlayer.setLoop(isLoop);
@@ -341,7 +340,7 @@ public class NikoPlayer {
      * @param layout
      */
     @UiThread
-    public NikoPlayer setPlayerLayout(final BaseRenderLayout layout) {
+    public YomePlayer setPlayerLayout(final BaseRenderLayout layout) {
         checkPlayer();
         mRenderLayout = layout;
         if (mRenderLayout != null) {
@@ -365,7 +364,7 @@ public class NikoPlayer {
      * @param left  左边
      * @param right 右边
      */
-    public NikoPlayer setVolume(float left, float right) {
+    public YomePlayer setVolume(float left, float right) {
         checkPlayer();
         mPlayer.setVolume(left, right);
         return this;
@@ -388,7 +387,7 @@ public class NikoPlayer {
      * @param mode 默认是Fill
      */
     @UiThread
-    public NikoPlayer setScaleMode(ViewScaleUtil.ScaleMode mode) {
+    public YomePlayer setScaleMode(ViewScaleUtil.ScaleMode mode) {
         if (mode != null) {
             mBuilder.mScaleMode = mode;
         }
@@ -402,13 +401,13 @@ public class NikoPlayer {
     private SimplePlayerListener mPlayerListener = new SimplePlayerListener() {
         @Override
         public void onVideoSizeChanged(int width, int height) {
-            NikoPlayer.this.onVideoSizeChanged(width, height);
+            YomePlayer.this.onVideoSizeChanged(width, height);
         }
 
         @Override
         public void onVideoRotationChanged(int rotation) {
             mVideoRotation = rotation;
-            NikoPlayer.this.onVideoRotationChanged(rotation);
+            YomePlayer.this.onVideoRotationChanged(rotation);
         }
     };
 
@@ -693,8 +692,8 @@ public class NikoPlayer {
             return this;
         }
 
-        public NikoPlayer create() {
-            return new NikoPlayer(this);
+        public YomePlayer create() {
+            return new YomePlayer(this);
         }
 
 

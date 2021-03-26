@@ -42,6 +42,9 @@ public class DisplayModeController {
         info.parentView = (ViewGroup) childView.getParent();
         info.layoutParams = childView.getLayoutParams();
         info.index = Utils.getChildIndexOfViewGroup(info.parentView, childView);
+        info.x = childView.getX();
+        info.y = childView.getY();
+        Log.i("==", "x:" + info.x + "  y:" + info.y);
         return info;
     }
 
@@ -137,6 +140,8 @@ public class DisplayModeController {
             info.parentView.removeView(info.childView);
             FrameLayout.LayoutParams params = mTinyWindowParamFactory.createLayoutParam();
             contentView.addView(info.childView, params);
+            //info.childView.setX(info.x);
+            // info.childView.setY(info.y);
         }
     }
 
@@ -152,6 +157,8 @@ public class DisplayModeController {
             FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.MATCH_PARENT);
             contentView.addView(info.childView, params);
+            info.childView.setTranslationX(0);
+            info.childView.setTranslationY(0);
         }
     }
 
@@ -164,6 +171,8 @@ public class DisplayModeController {
             activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
             ((ViewGroup) info.childView.getParent()).removeView(info.childView);
             info.parentView.addView(info.childView, info.index, info.layoutParams);
+            info.childView.setTranslationX(0);
+            info.childView.setTranslationY(0);
         }
     }
 
@@ -180,6 +189,8 @@ public class DisplayModeController {
                     ViewGroup.LayoutParams.MATCH_PARENT);
             ViewGroup contentView = activity.findViewById(android.R.id.content);
             contentView.addView(info.childView, params);
+            info.childView.setTranslationX(0);
+            info.childView.setTranslationY(0);
         }
     }
 
@@ -197,6 +208,8 @@ public class DisplayModeController {
         ViewGroup parentView;
         ViewGroup.LayoutParams layoutParams;
         int index;
+        float x;
+        float y;
         DisplayMode mode;
     }
 }

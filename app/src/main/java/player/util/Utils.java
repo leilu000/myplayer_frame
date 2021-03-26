@@ -22,6 +22,22 @@ public class Utils {
     private static DisplayMetrics sDisplayMetrics;
     private static final float DOT_FIVE = 0.5f;
 
+
+    /**
+     * 获取状态栏高度
+     *
+     * @return
+     */
+    public static int getStatusBarHeight() {
+        int result = 0;
+        int resourceId = BaseApplication.getContext().getResources()
+                .getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            result = BaseApplication.getContext().getResources().getDimensionPixelSize(resourceId);
+        }
+        return result;
+    }
+
     /**
      * init display metrics
      *
@@ -58,6 +74,19 @@ public class Utils {
         DisplayMetrics outMetrics = new DisplayMetrics();
         wm.getDefaultDisplay().getMetrics(outMetrics);
         return outMetrics.widthPixels;
+    }
+
+    /**
+     * 获取屏幕高度
+     *
+     * @return
+     */
+    public static int getScreenHeight() {
+        WindowManager wm = (WindowManager) BaseApplication.getContext()
+                .getSystemService(Context.WINDOW_SERVICE);
+        DisplayMetrics outMetrics = new DisplayMetrics();
+        wm.getDefaultDisplay().getMetrics(outMetrics);
+        return outMetrics.heightPixels;
     }
 
     /**

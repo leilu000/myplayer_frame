@@ -4,7 +4,7 @@ import android.view.Surface;
 
 import java.io.IOException;
 
-import player.base.BasePlayer;
+import player.base.BaseYomePlayer;
 import player.bean.PlayerParam;
 import tv.danmaku.ijk.media.player.IMediaPlayer;
 import tv.danmaku.ijk.media.player.IjkMediaPlayer;
@@ -14,11 +14,11 @@ import tv.danmaku.ijk.media.player.IjkMediaPlayer;
  * ijkplayer
  * Created by ll on 2019/12/5.
  */
-public class IjkPlayer extends BasePlayer {
+public class IjkYomePlayer extends BaseYomePlayer {
 
     private IjkMediaPlayer mPlayer;
 
-    public IjkPlayer(PlayerParam playerParam) {
+    public IjkYomePlayer(PlayerParam playerParam) {
         super((playerParam));
     }
 

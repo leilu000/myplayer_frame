@@ -14,6 +14,8 @@ import androidx.annotation.UiThread;
 
 import player.base.inter.IPlayer;
 import player.bean.DisplayMode;
+import player.util.TinyWindowMoveHelper;
+import player.util.Utils;
 import player.util.ViewScaleUtil;
 
 
@@ -27,8 +29,9 @@ public abstract class BaseRenderLayout extends FrameLayout {
     private int mImageWidth;
     private int mImageHeight;
     protected IPlayer mPlayer;
-    private int mVideoRotaion;
+    private int mVideoRotation;
     private DisplayMode mDisplayMode;
+    private TinyWindowMoveHelper mTinyWindowMoveHelper;
 
     public BaseRenderLayout(Context context) {
         this(context, null);
@@ -50,14 +53,16 @@ public abstract class BaseRenderLayout extends FrameLayout {
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         super.onLayout(changed, left, top, right, bottom);
-        if (getChildCount() == 0 || (mImageWidth == 0 || mImageHeight == 0)) {
+        int childCount = getChildCount();
+        if (childCount == 0 || (mImageWidth == 0 || mImageHeight == 0)) {
             return;
         }
-        if (getChildCount() > 1) {
+        if (childCount > 1) {
             throw new RuntimeException("The layout can only have one child View !");
         }
         View childView = getChildAt(0);
-        ViewScaleUtil.Size size = ViewScaleUtil.calcFitSize(mImageWidth, mImageHeight, getMeasuredWidth(), getMeasuredHeight(), mScaleMode);
+        ViewScaleUtil.Size size = ViewScaleUtil.calcFitSize(mImageWidth, mImageHeight,
+                getMeasuredWidth(), getMeasuredHeight(), mScaleMode);
         FrameLayout.LayoutParams params = (LayoutParams) childView.getLayoutParams();
         params.width = size.width;
         params.height = size.height;
@@ -100,9 +105,9 @@ public abstract class BaseRenderLayout extends FrameLayout {
 
     @UiThread
     public void onVideoRotationChanged(int rotation) {
-        if (mVideoRotaion != rotation) {
+        if (mVideoRotation != rotation) {
             Log.i("leilu", "onVideoRotationChanged,rotation:" + rotation);
-            mVideoRotaion = rotation;
+            mVideoRotation = rotation;
             int width = getMeasuredWidth();
             int height = getMeasuredHeight();
             if (rotation == 90 || rotation == 270) {
@@ -121,10 +126,29 @@ public abstract class BaseRenderLayout extends FrameLayout {
         }
     }
 
+
     public boolean onTouch(View v, MotionEvent event) {
         if (mDisplayMode != DisplayMode.INNER_ACTIVITY_TINY_WINDOW) {
             return false;
         }
-        return true;
+        if (mTinyWindowMoveHelper == null) {
+            int parentWidth = Utils.getScreenWidth();
+            int parentHeight = Utils.getScreenHeight() + Utils.getStatusBarHeight();
+            mTinyWindowMoveHelper = new TinyWindowMoveHelper(parentWidth, parentHeight);
+        }
+        return mTinyWindowMoveHelper.onTouch(v, event);
+    }
+
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        if (mTinyWindowMoveHelper != null) {
+            mTinyWindowMoveHelper.clear();
+        }
     }
 }

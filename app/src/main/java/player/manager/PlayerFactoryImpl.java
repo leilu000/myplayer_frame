@@ -3,8 +3,8 @@ package player.manager;
 import player.base.inter.IPlayer;
 import player.base.inter.IPlayerFactory;
 import player.bean.PlayerParam;
-import player.player.AndroidPlayer;
-import player.player.IjkPlayer;
+import player.player.AndroidYomePlayer;
+import player.player.IjkYomePlayer;
 
 /**
  * Created by ll on 2019/12/5.
@@ -17,10 +17,10 @@ public class PlayerFactoryImpl implements IPlayerFactory {
         IPlayer player;
         switch (type) {
             case ANDROID_MEDIA_PLAYER:
-                player = new AndroidPlayer(playerParam);
+                player = new AndroidYomePlayer(playerParam);
                 break;
             case IJK_PLAYER:
-                player = new IjkPlayer(playerParam);
+                player = new IjkYomePlayer(playerParam);
                 break;
             default:
                 throw new RuntimeException("The " + playerParam + " is not support !");

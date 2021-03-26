@@ -19,7 +19,7 @@ import player.bean.PlayerState;
  * 播放器的基类，任何播放器都应该继承此类进行扩展
  * Created by ll on 2019/12/6.
  */
-public abstract class BasePlayer implements IPlayer {
+public abstract class BaseYomePlayer implements IPlayer {
 
     private static final int EVENT_RECONNECT = -10000;
 
@@ -54,7 +54,7 @@ public abstract class BasePlayer implements IPlayer {
         }
     };
 
-    public BasePlayer(PlayerParam playerParam) {
+    public BaseYomePlayer(PlayerParam playerParam) {
         mPlayerParam = playerParam;
         if (mPlayerParam == null) {
             mPlayerParam = new PlayerParam();

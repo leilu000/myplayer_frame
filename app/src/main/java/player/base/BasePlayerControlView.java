@@ -23,7 +23,7 @@ import com.leilu.playerframe.R;
 import player.bean.DisplayMode;
 import player.bean.PlayerState;
 import player.bean.SimplePlayerListener;
-import player.manager.NikoPlayer;
+import player.manager.YomePlayer;
 import player.util.Utils;
 
 /**
@@ -43,7 +43,7 @@ public abstract class BasePlayerControlView extends FrameLayout {
     private CountDownTimer mProgressTimer;
     private CountDownTimer mHideTimer;
     private PlayerListener mPlayerListener;
-    protected NikoPlayer mNikoPlayer;
+    protected YomePlayer mYomePlayer;
     private int mScaledTouchSlop;
     private float mCurrentVolume = 1.0f;
     private int mCurrentBrightness;
@@ -103,12 +103,12 @@ public abstract class BasePlayerControlView extends FrameLayout {
 
 
     @UiThread
-    public void attachPlayerMgr(NikoPlayer mgr) {
-        if (mgr != null && mNikoPlayer == null) {
+    public void attachPlayerMgr(YomePlayer mgr) {
+        if (mgr != null && mYomePlayer == null) {
             release();
-            mNikoPlayer = mgr;
+            mYomePlayer = mgr;
             mPlayerListener = new PlayerListener();
-            mNikoPlayer.addPlayerListener(mPlayerListener);
+            mYomePlayer.addPlayerListener(mPlayerListener);
             initListener();
         }
     }
@@ -137,7 +137,7 @@ public abstract class BasePlayerControlView extends FrameLayout {
         cancelProgressTimer();
         cancelHideTimer();
         clearListener();
-        mNikoPlayer = null;
+        mYomePlayer = null;
     }
 
 
@@ -166,7 +166,7 @@ public abstract class BasePlayerControlView extends FrameLayout {
 
                 @Override
                 public void onFinish() {
-                    onProgressChanged(mNikoPlayer.getDuration(), mNikoPlayer.getProgress());
+                    onProgressChanged(mYomePlayer.getDuration(), mYomePlayer.getProgress());
                 }
             };
             mProgressTimer.start();
@@ -202,28 +202,28 @@ public abstract class BasePlayerControlView extends FrameLayout {
     }
 
     private void clearListener() {
-        if (mPlayerListener != null && mNikoPlayer != null) {
-            mNikoPlayer.removePlayerListener(mPlayerListener);
+        if (mPlayerListener != null && mYomePlayer != null) {
+            mYomePlayer.removePlayerListener(mPlayerListener);
             mPlayerListener = null;
         }
     }
 
 
     protected void seek(long timeInUs) {
-        if (mNikoPlayer != null) {
-            mNikoPlayer.seek(timeInUs);
+        if (mYomePlayer != null) {
+            mYomePlayer.seek(timeInUs);
         }
     }
 
     protected void pause() {
-        if (mNikoPlayer != null) {
-            mNikoPlayer.pause();
+        if (mYomePlayer != null) {
+            mYomePlayer.pause();
         }
     }
 
     protected void play() {
-        if (mNikoPlayer != null) {
-            mNikoPlayer.start();
+        if (mYomePlayer != null) {
+            mYomePlayer.start();
         }
     }
 
@@ -236,27 +236,27 @@ public abstract class BasePlayerControlView extends FrameLayout {
     }
 
     protected void stop() {
-        if (mNikoPlayer != null) {
-            mNikoPlayer.stop();
+        if (mYomePlayer != null) {
+            mYomePlayer.stop();
         }
     }
 
     protected void setVolume(float left, float right) {
-        if (mNikoPlayer != null) {
-            mNikoPlayer.setVolume(left, right);
+        if (mYomePlayer != null) {
+            mYomePlayer.setVolume(left, right);
         }
     }
 
     protected long getDuration() {
-        if (mNikoPlayer != null) {
-            return mNikoPlayer.getDuration();
+        if (mYomePlayer != null) {
+            return mYomePlayer.getDuration();
         }
         return 0;
     }
 
     protected long getCurrentProgress() {
-        if (mNikoPlayer != null) {
-            return mNikoPlayer.getProgress();
+        if (mYomePlayer != null) {
+            return mYomePlayer.getProgress();
         }
         return 0;
     }
@@ -341,7 +341,7 @@ public abstract class BasePlayerControlView extends FrameLayout {
         public void onPlaying() {
             startProgressTimer();
             startHideTimer();
-            BasePlayerControlView.this.onPlaying(mNikoPlayer.getDuration(), mNikoPlayer.getProgress());
+            BasePlayerControlView.this.onPlaying(mYomePlayer.getDuration(), mYomePlayer.getProgress());
         }
     }
 
@@ -352,7 +352,7 @@ public abstract class BasePlayerControlView extends FrameLayout {
     private float mDX;
 
     public boolean onTouch(View v, MotionEvent event) {
-        if (mNikoPlayer == null || mNikoPlayer.getDisplayMode() == DisplayMode.INNER_ACTIVITY_TINY_WINDOW) {
+        if (mYomePlayer == null || mYomePlayer.getDisplayMode() == DisplayMode.INNER_ACTIVITY_TINY_WINDOW) {
             return false;
         }
         switch (event.getAction()) {
@@ -360,8 +360,6 @@ public abstract class BasePlayerControlView extends FrameLayout {
                 mStartX = event.getX();
                 mStartY = event.getY();
                 mScrollDirection = DIRECTION_UNKNOW;
-                mStartY = event.getY();
-                mStartX = event.getX();
                 break;
             case MotionEvent.ACTION_MOVE:
                 doActionMove(event);
@@ -389,6 +387,8 @@ public abstract class BasePlayerControlView extends FrameLayout {
                 } else {
                     show(true);
                 }
+                break;
+            default:
                 break;
         }
         return true;
@@ -546,16 +546,16 @@ public abstract class BasePlayerControlView extends FrameLayout {
     protected abstract void onVolumeChanged(float value, int maxVolume);
 
     protected void setDisplayMode(DisplayMode mode) {
-        mNikoPlayer.setDisplayMode(mode);
+        mYomePlayer.setDisplayMode(mode);
     }
 
     protected boolean isLandscape() {
-        return mNikoPlayer.getDisplayMode() == DisplayMode.LANDSCAPE_FULL_SCREEN;
+        return mYomePlayer.getDisplayMode() == DisplayMode.LANDSCAPE_FULL_SCREEN;
     }
 
     protected PlayerState getPlayerState() {
-        if (mNikoPlayer != null) {
-            return mNikoPlayer.getState();
+        if (mYomePlayer != null) {
+            return mYomePlayer.getState();
         }
         return PlayerState.IDLE;
     }

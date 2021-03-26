@@ -8,19 +8,17 @@ import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import player.base.inter.IPlayer;
 import player.base.inter.IPlayerFactory;
 import player.bean.DisplayMode;
-import player.bean.PlayerParam;
 import player.bean.SimplePlayerListener;
-import player.manager.NikoPlayer;
+import player.manager.YomePlayer;
 import player.util.ViewScaleUtil;
 import player.view.PlayerControlView;
 import player.view.TextureRenderLayout;
 
 public class MainActivity extends AppCompatActivity {
 
-    private NikoPlayer mPlayer;
+    private YomePlayer mPlayer;
     private TextureRenderLayout mTexturePlayerLayout;
     private PlayerControlView pcv;
 
@@ -43,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         String url = "http://1259438468.vod2.myqcloud.com/6ac6c9d4vodcq1259438468/2dc46ae95285890798568929916/Grvg1EX8yAQA.mp4";
         // url = "/sdcard/DCIM/Camera/VID_20200217_150849.mp4";// 横屏拍摄
         // url = "/sdcard/DCIM/Camera/VID_20200217_151125.mp4";// 竖屏拍摄
-        mPlayer = new NikoPlayer.Builder()
+        mPlayer = new YomePlayer.Builder()
                 .setDisplayMode(DisplayMode.PORTRAIT)
                 .setIsHardDecode(true)
                 .setIsStartOnPrepared(true)
@@ -116,4 +114,6 @@ public class MainActivity extends AppCompatActivity {
     public void render(View view) {
         mPlayer.setPlayerLayout(mTexturePlayerLayout);
     }
+
+
 }
