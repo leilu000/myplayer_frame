@@ -45,6 +45,20 @@ public class YomePlayer {
     }
 
     /**
+     * 小窗模式下，是否记住上次小窗拖动的位置
+     *
+     * @param saveTinyWindowPosition true,下次弹出小窗则显示到上次的位置
+     * @return
+     */
+    public YomePlayer setSaveTinyWindowPosition(boolean saveTinyWindowPosition) {
+        mBuilder.mSaveTinyWindowPosition = saveTinyWindowPosition;
+        if (mRenderLayout != null) {
+            mRenderLayout.setSaveTinyWindowPosition(saveTinyWindowPosition);
+        }
+        return this;
+    }
+
+    /**
      * 添加播放器控制View
      *
      * @param view
@@ -348,9 +362,8 @@ public class YomePlayer {
             mRenderLayout.setScaleMode(mBuilder.mScaleMode);
             mRenderLayout.updateImageSize(mVideoWidth, mVideoHeight);
             mRenderLayout.setOnTouchListener(new TinyWindowTouchController(mPlayer, mControllerView, mRenderLayout));
-            if (mRenderLayout != null) {
-                mRenderLayout.setDisplayMode(mBuilder.mDisplayMode);
-            }
+            mRenderLayout.setDisplayMode(mBuilder.mDisplayMode);
+            mRenderLayout.setSaveTinyWindowPosition(mBuilder.mSaveTinyWindowPosition);
             mDisplayModeController.attachPlayerLayout(mRenderLayout);
             setDisplayMode(mBuilder.mDisplayMode);
             onVideoRotationChanged(mVideoRotation);
@@ -452,7 +465,7 @@ public class YomePlayer {
         private ViewScaleUtil.ScaleMode mScaleMode;
         // 播放器控制View
         private BasePlayerControlView mControllerView;
-        // 是否在prepared状态下就开始播
+        // 是否在prepared回调就开始播放
         private boolean mIsStartOnPrepared = true;
         // 遇到错误是否重连
         private boolean mIsReconnectOnError;
@@ -466,6 +479,8 @@ public class YomePlayer {
         private int mMinFrames = 100;
         // 播放地址
         private String mUrl;
+        // 小窗模式下，是否记住上次小窗拖动的位置
+        private boolean mSaveTinyWindowPosition;
 
         public Builder() {
             mPlayerType = IPlayerFactory.PlayerType.ANDROID_MEDIA_PLAYER;
@@ -474,6 +489,17 @@ public class YomePlayer {
             mScaleMode = ViewScaleUtil.ScaleMode.AspectFit;
             mDisplayMode = DisplayMode.PORTRAIT;
             mHttpProxyCacheServerBuilder = new HttpProxyCacheServer.Builder(BaseApplication.getContext());
+        }
+
+        /**
+         * 小窗模式下，是否记住上次小窗拖动的位置
+         *
+         * @param saveTinyWindowPosition true,下次弹出小窗则显示到上次的位置
+         * @return
+         */
+        public Builder setSaveTinyWindowPosition(boolean saveTinyWindowPosition) {
+            mSaveTinyWindowPosition = saveTinyWindowPosition;
+            return this;
         }
 
         /**

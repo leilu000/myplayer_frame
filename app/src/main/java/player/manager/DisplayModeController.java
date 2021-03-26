@@ -140,8 +140,6 @@ public class DisplayModeController {
             info.parentView.removeView(info.childView);
             FrameLayout.LayoutParams params = mTinyWindowParamFactory.createLayoutParam();
             contentView.addView(info.childView, params);
-            //info.childView.setX(info.x);
-            // info.childView.setY(info.y);
         }
     }
 

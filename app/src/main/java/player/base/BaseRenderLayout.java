@@ -1,6 +1,7 @@
 package player.base;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.util.AttributeSet;
@@ -14,6 +15,8 @@ import androidx.annotation.UiThread;
 
 import player.base.inter.IPlayer;
 import player.bean.DisplayMode;
+import player.manager.Config;
+import player.manager.YomePlayer;
 import player.util.TinyWindowMoveHelper;
 import player.util.Utils;
 import player.util.ViewScaleUtil;
@@ -32,6 +35,7 @@ public abstract class BaseRenderLayout extends FrameLayout {
     private int mVideoRotation;
     private DisplayMode mDisplayMode;
     private TinyWindowMoveHelper mTinyWindowMoveHelper;
+    private boolean mSaveTinyWindowPosition;
 
     public BaseRenderLayout(Context context) {
         this(context, null);
@@ -48,6 +52,10 @@ public abstract class BaseRenderLayout extends FrameLayout {
 
     public void setDisplayMode(DisplayMode displayMode) {
         mDisplayMode = displayMode;
+    }
+
+    public void setSaveTinyWindowPosition(boolean saveTinyWindowPosition) {
+        mSaveTinyWindowPosition = saveTinyWindowPosition;
     }
 
     @Override
@@ -131,17 +139,27 @@ public abstract class BaseRenderLayout extends FrameLayout {
         if (mDisplayMode != DisplayMode.INNER_ACTIVITY_TINY_WINDOW) {
             return false;
         }
+        initTinyWindowMoveHelper();
+        return mTinyWindowMoveHelper.onTouch(v, event);
+    }
+
+    private void initTinyWindowMoveHelper() {
         if (mTinyWindowMoveHelper == null) {
             int parentWidth = Utils.getScreenWidth();
             int parentHeight = Utils.getScreenHeight() + Utils.getStatusBarHeight();
-            mTinyWindowMoveHelper = new TinyWindowMoveHelper(parentWidth, parentHeight);
+            mTinyWindowMoveHelper = new TinyWindowMoveHelper(parentWidth, parentHeight, mTinyWindowListener);
         }
-        return mTinyWindowMoveHelper.onTouch(v, event);
     }
 
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
+        if (mDisplayMode == DisplayMode.INNER_ACTIVITY_TINY_WINDOW) {
+            final float[] savedPosition = Config.getInstance().getTinyWindowPosition();
+            initTinyWindowMoveHelper();
+            mTinyWindowMoveHelper.move(this, savedPosition[0], savedPosition[1]);
+
+        }
     }
 
     @Override
@@ -151,4 +169,28 @@ public abstract class BaseRenderLayout extends FrameLayout {
             mTinyWindowMoveHelper.clear();
         }
     }
+
+    private void savePositionIfNeed() {
+        if (mSaveTinyWindowPosition) {
+            Config.getInstance().saveTinyWindowPosition(getX(), getY());
+        }
+    }
+
+
+    private final TinyWindowMoveHelper.Listener mTinyWindowListener = new TinyWindowMoveHelper.Listener() {
+        @Override
+        public void onAnimationStart() {
+
+        }
+
+        @Override
+        public void onAnimationEnd() {
+            savePositionIfNeed();
+        }
+
+        @Override
+        public void onAnimationCancel() {
+            savePositionIfNeed();
+        }
+    };
 }

@@ -1,8 +1,11 @@
 package com.leilu.playerframe;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 
@@ -24,8 +27,13 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
+
+
         setContentView(R.layout.activity_main);
+        getSupportActionBar().hide();
+
         mTexturePlayerLayout = findViewById(R.id.layout);
         pcv = findViewById(R.id.pcv);
         initPlayer();
@@ -47,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
                 .setIsStartOnPrepared(true)
                 .setRenderLayout(mTexturePlayerLayout)
                 .setLoop(true)
+                .setSaveTinyWindowPosition(true)
                 .setIsUseCache(true)
                 .setPlayerType(IPlayerFactory.PlayerType.IJK_PLAYER)
                 .setDataSource(url)
@@ -107,8 +116,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void capture(View view) {
-        final ImageView iv = findViewById(R.id.iv);
-        iv.setImageBitmap(mPlayer.capture());
+        //final ImageView iv = findViewById(R.id.iv);
+        //iv.setImageBitmap(mPlayer.capture());
     }
 
     public void render(View view) {

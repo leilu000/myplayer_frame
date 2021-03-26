@@ -35,7 +35,7 @@ public class TestActivity extends AppCompatActivity implements View.OnTouchListe
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
-
+        getSupportActionBar().hide();
         final ViewGroup viewGroup = (ViewGroup) getWindow().getDecorView();
         FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
                 (int) (Utils.getScreenWidth() * 0.6f),
@@ -51,7 +51,7 @@ public class TestActivity extends AppCompatActivity implements View.OnTouchListe
 
         int screenWidth = Utils.getScreenWidth();
         int screenHeight = Utils.getScreenHeight() + Utils.getStatusBarHeight();
-        helper = new TinyWindowMoveHelper(screenWidth, screenHeight);
+        helper = new TinyWindowMoveHelper(screenWidth, screenHeight, null);
 //        mScreenWidth = Utils.getScreenWidth();
 //        mScreenHeight = Utils.getScreenHeight();
     }

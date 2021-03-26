@@ -3,21 +3,12 @@ package player.util;
 import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
 /**
- * PlayerFrame
- *
- * <p>Description: </p>
- * <br>
- *
- * <p>Copyright: Copyright (c) 2021</p>
- *
- * @author leilu.lei@alibaba-inc.com
- * @version 1.0
- * 3/25/21 9:01 PM
+ * 播放器的渲染载体基类，所有的渲染载体都应该继承此类扩展
+ * Created by ll on 2019/12/7.
  */
 public class TinyWindowMoveHelper {
     private float mLastX;
@@ -25,11 +16,12 @@ public class TinyWindowMoveHelper {
     private final int mParentWidth;
     private final int mParentHeight;
     private AnimatorSet mAnimatorSet;
+    private Listener mListener;
 
-    public TinyWindowMoveHelper(int parentWidth, int parentHeight) {
+    public TinyWindowMoveHelper(int parentWidth, int parentHeight, Listener listener) {
         mParentWidth = parentWidth;
         mParentHeight = parentHeight;
-        Log.i("==", "parentHeight:" + parentHeight);
+        mListener = listener;
     }
 
     public void clear() {
@@ -37,6 +29,7 @@ public class TinyWindowMoveHelper {
             mAnimatorSet.cancel();
             mAnimatorSet = null;
         }
+        mListener = null;
     }
 
     public boolean onTouch(View view, MotionEvent event) {
@@ -103,17 +96,18 @@ public class TinyWindowMoveHelper {
         // 下
         else if (y >= mParentHeight - height) {
             move(view, view.getX(), mParentHeight - height);
+        } else {
+            move(view, x, y);
         }
     }
 
-    private void move(View view, float destX, float destY) {
+    public void move(View view, float destX, float destY) {
         mAnimatorSet = new AnimatorSet();
         mAnimatorSet.addListener(new MyListener());
         mAnimatorSet.setDuration(200);
         Animator xAnimator = ObjectAnimator.ofFloat(view, "X", view.getX(), destX);
         Animator yAnimator = ObjectAnimator.ofFloat(view, "Y", view.getY(), destY);
         mAnimatorSet.playTogether(xAnimator, yAnimator);
-        Log.i("==", "destX:" + destX + "   destY:" + destY);
         mAnimatorSet.start();
     }
 
@@ -121,22 +115,39 @@ public class TinyWindowMoveHelper {
 
         @Override
         public void onAnimationStart(Animator animation) {
-
+            if (mListener != null) {
+                mListener.onAnimationStart();
+            }
         }
 
         @Override
         public void onAnimationEnd(Animator animation) {
             mAnimatorSet = null;
+            if (mListener != null) {
+                mListener.onAnimationEnd();
+            }
         }
 
         @Override
         public void onAnimationCancel(Animator animation) {
             mAnimatorSet = null;
+            if (mListener != null) {
+                mListener.onAnimationCancel();
+            }
         }
 
         @Override
         public void onAnimationRepeat(Animator animation) {
 
         }
+    }
+
+    public interface Listener {
+        void onAnimationStart();
+
+        void onAnimationEnd();
+
+        void onAnimationCancel();
+
     }
 }
