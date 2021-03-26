@@ -692,7 +692,7 @@ public class YomePlayer {
         }
 
         /**
-         * 设置是否循环播放,默认不循环
+         * 设置是否循环播放(直播模式下无用),默认不循环
          *
          * @param isLoop
          */
