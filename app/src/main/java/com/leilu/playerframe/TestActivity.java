@@ -11,7 +11,7 @@ import android.widget.FrameLayout;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import player.util.TinyWindowMoveHelper;
+import player.util.FloatWindowMoveHelper;
 import player.util.Utils;
 
 /**
@@ -29,7 +29,7 @@ import player.util.Utils;
 public class TestActivity extends AppCompatActivity implements View.OnTouchListener {
 
     View view;
-    TinyWindowMoveHelper helper;
+    FloatWindowMoveHelper helper;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -51,7 +51,7 @@ public class TestActivity extends AppCompatActivity implements View.OnTouchListe
 
         int screenWidth = Utils.getScreenWidth();
         int screenHeight = Utils.getScreenHeight() + Utils.getStatusBarHeight();
-        helper = new TinyWindowMoveHelper(screenWidth, screenHeight, null);
+        helper = new FloatWindowMoveHelper(screenWidth, screenHeight, null);
 //        mScreenWidth = Utils.getScreenWidth();
 //        mScreenHeight = Utils.getScreenHeight();
     }

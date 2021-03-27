@@ -10,7 +10,7 @@ import player.util.Utils;
 /**
  * Created by ll on 2019/12/22.
  */
-public class TinyWindowParamFactoryImpl implements ITinyWindowParamFactory {
+public class FloatWindowParamFactoryImpl implements ITinyWindowParamFactory {
 
     @Override
     public FrameLayout.LayoutParams createLayoutParam() {

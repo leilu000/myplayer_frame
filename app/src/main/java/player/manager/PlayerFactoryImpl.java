@@ -13,19 +13,8 @@ public class PlayerFactoryImpl implements IPlayerFactory {
 
 
     @Override
-    public IPlayer createPlayer(PlayerType type, PlayerParam playerParam) {
-        IPlayer player;
-        switch (type) {
-            case ANDROID_MEDIA_PLAYER:
-                player = new AndroidYomePlayer(playerParam);
-                break;
-            case IJK_PLAYER:
-                player = new IjkYomePlayer(playerParam);
-                break;
-            default:
-                throw new RuntimeException("The " + playerParam + " is not support !");
-        }
-        return player;
+    public IPlayer createPlayer(PlayerParam playerParam) {
+        return new AndroidYomePlayer(playerParam);
     }
 
 }

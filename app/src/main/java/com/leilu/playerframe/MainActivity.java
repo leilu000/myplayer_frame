@@ -7,18 +7,22 @@ import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import player.base.inter.IPlayer;
 import player.base.inter.IPlayerFactory;
-import player.base.inter.OnTinyWindowClickListener;
+import player.base.inter.OnFloatWindowClickListener;
 import player.bean.DisplayMode;
+import player.bean.PlayerParam;
 import player.bean.SimplePlayerListener;
 import player.manager.YomePlayer;
+import player.player.IjkYomePlayer;
 import player.util.ViewScaleUtil;
 import player.view.PlayerControlView;
 import player.view.TextureRenderLayout;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final String URL = "http://1259438468.vod2.myqcloud.com/6ac6c9d4vodcq1259438468/2dc46ae95285890798568929916/Grvg1EX8yAQA.mp4";
+    private static final String URL1 = "http://1259438468.vod2.myqcloud.com/6ac6c9d4vodcq1259438468/2dc46ae95285890798568929916/Grvg1EX8yAQA.mp4";
+    private static final String URL = "http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4";
 
     private YomePlayer mPlayer;
     private TextureRenderLayout mTexturePlayerLayout;
@@ -49,24 +53,22 @@ public class MainActivity extends AppCompatActivity {
                 // 是否循环播放
                 .setLoop(true)
                 // 设置是否保存悬浮窗的拖动位置，如果为true下次显示位于上次的位置
-                .setSaveTinyWindowPosition(true)
+                .setSaveFloatWindowPosition(true)
                 // 是否边下边播
                 .setIsUseCache(true)
-                // 设置播放器内核类型（）
-                .setPlayerType(IPlayerFactory.PlayerType.IJK_PLAYER)
-                // 设置创建播放器的工厂，用于创建自己想要的播放器内核
-//                .setPlayerFactory(new IPlayerFactory() {
-//                    @Override
-//                    public IPlayer createPlayer(PlayerType type, PlayerParam playerParam) {
-//                        return new IjkYomePlayer(playerParam);
-//                    }
-//                })
                 // 设置播放地址
-                .setDataSource(URL)
+                .setDataSource(URL1)
                 // 设置缩放模式
                 .setScaleMode(ViewScaleUtil.ScaleMode.AspectFit)
+                // 设置创建播放器的工厂，用于创建自己想要的播放器内核
+                .setPlayerFactory(new IPlayerFactory() {
+                    @Override
+                    public IPlayer createPlayer(PlayerParam playerParam) {
+                        return new IjkYomePlayer(playerParam);
+                    }
+                })
                 // 设置悬浮窗点击事件
-                .setTinyWindowClickListener(new OnTinyWindowClickListener() {
+                .setFloatWindowClickListener(new OnFloatWindowClickListener() {
                     @Override
                     public void onSingleClick() {
                         Log.i("==", "点击了");

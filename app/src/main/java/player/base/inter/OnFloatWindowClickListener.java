@@ -12,7 +12,7 @@ package player.base.inter;
  * @version 1.0
  * 3/26/21 6:05 PM
  */
-public interface OnTinyWindowClickListener {
+public interface OnFloatWindowClickListener {
 
     void onSingleClick();
 

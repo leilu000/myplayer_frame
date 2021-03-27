@@ -10,7 +10,7 @@ import android.view.View;
  * 播放器的渲染载体基类，所有的渲染载体都应该继承此类扩展
  * Created by ll on 2019/12/7.
  */
-public class TinyWindowMoveHelper {
+public class FloatWindowMoveHelper {
     private float mLastX;
     private float mLastY;
     private final int mParentWidth;
@@ -18,7 +18,7 @@ public class TinyWindowMoveHelper {
     private AnimatorSet mAnimatorSet;
     private Listener mListener;
 
-    public TinyWindowMoveHelper(int parentWidth, int parentHeight, Listener listener) {
+    public FloatWindowMoveHelper(int parentWidth, int parentHeight, Listener listener) {
         mParentWidth = parentWidth;
         mParentHeight = parentHeight;
         mListener = listener;

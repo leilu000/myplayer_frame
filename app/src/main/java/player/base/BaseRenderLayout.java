@@ -13,10 +13,10 @@ import android.widget.FrameLayout;
 import androidx.annotation.UiThread;
 
 import player.base.inter.IPlayer;
-import player.base.inter.OnTinyWindowClickListener;
+import player.base.inter.OnFloatWindowClickListener;
 import player.bean.DisplayMode;
 import player.manager.Config;
-import player.util.TinyWindowMoveHelper;
+import player.util.FloatWindowMoveHelper;
 import player.util.TouchClickHelper;
 import player.util.Utils;
 import player.util.ViewScaleUtil;
@@ -34,10 +34,10 @@ public abstract class BaseRenderLayout extends FrameLayout {
     protected IPlayer mPlayer;
     private int mVideoRotation;
     private DisplayMode mDisplayMode;
-    private TinyWindowMoveHelper mTinyWindowMoveHelper;
-    private boolean mSaveTinyWindowPosition;
+    private FloatWindowMoveHelper mFloatWindowMoveHelper;
+    private boolean mSaveFloatWindowPosition;
     private TouchClickHelper mTouchClickHelper;
-    private OnTinyWindowClickListener mOnTinyWindowClickListener;
+    private OnFloatWindowClickListener mOnTinyWindowClickListener;
 
     public BaseRenderLayout(Context context) {
         this(context, null);
@@ -56,11 +56,11 @@ public abstract class BaseRenderLayout extends FrameLayout {
         mDisplayMode = displayMode;
     }
 
-    public void setSaveTinyWindowPosition(boolean saveTinyWindowPosition) {
-        mSaveTinyWindowPosition = saveTinyWindowPosition;
+    public void setSaveFloatWindowPosition(boolean saveTinyWindowPosition) {
+        mSaveFloatWindowPosition = saveTinyWindowPosition;
     }
 
-    public void setTinyWindowClickListener(OnTinyWindowClickListener listener) {
+    public void setTinyWindowClickListener(OnFloatWindowClickListener listener) {
         mOnTinyWindowClickListener = listener;
     }
 
@@ -146,14 +146,14 @@ public abstract class BaseRenderLayout extends FrameLayout {
         }
         mTouchClickHelper.onTouch(event);
         initTinyWindowHelper();
-        return mTinyWindowMoveHelper.onTouch(v, event);
+        return mFloatWindowMoveHelper.onTouch(v, event);
     }
 
     private void initTinyWindowHelper() {
-        if (mTinyWindowMoveHelper == null) {
+        if (mFloatWindowMoveHelper == null) {
             int parentWidth = Utils.getScreenWidth();
             int parentHeight = Utils.getScreenHeight() + Utils.getStatusBarHeight();
-            mTinyWindowMoveHelper = new TinyWindowMoveHelper(parentWidth, parentHeight, mTinyWindowListener);
+            mFloatWindowMoveHelper = new FloatWindowMoveHelper(parentWidth, parentHeight, mTinyWindowListener);
         }
         if (mTouchClickHelper == null) {
             mTouchClickHelper = new TouchClickHelper(mTouchClickHelperListener);
@@ -166,7 +166,7 @@ public abstract class BaseRenderLayout extends FrameLayout {
         if (mDisplayMode == DisplayMode.INNER_ACTIVITY_TINY_WINDOW) {
             final float[] savedPosition = Config.getInstance().getTinyWindowPosition();
             initTinyWindowHelper();
-            mTinyWindowMoveHelper.move(this, savedPosition[0], savedPosition[1]);
+            mFloatWindowMoveHelper.move(this, savedPosition[0], savedPosition[1]);
 
         }
     }
@@ -174,8 +174,8 @@ public abstract class BaseRenderLayout extends FrameLayout {
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
-        if (mTinyWindowMoveHelper != null) {
-            mTinyWindowMoveHelper.clear();
+        if (mFloatWindowMoveHelper != null) {
+            mFloatWindowMoveHelper.clear();
         }
         if (mTouchClickHelper != null) {
             mTouchClickHelper.release();
@@ -183,7 +183,7 @@ public abstract class BaseRenderLayout extends FrameLayout {
     }
 
     private void savePositionIfNeed() {
-        if (mSaveTinyWindowPosition) {
+        if (mSaveFloatWindowPosition) {
             Config.getInstance().saveTinyWindowPosition(getX(), getY());
         }
     }
@@ -204,7 +204,7 @@ public abstract class BaseRenderLayout extends FrameLayout {
         }
     };
 
-    private final TinyWindowMoveHelper.Listener mTinyWindowListener = new TinyWindowMoveHelper.Listener() {
+    private final FloatWindowMoveHelper.Listener mTinyWindowListener = new FloatWindowMoveHelper.Listener() {
         @Override
         public void onAnimationStart() {
 
