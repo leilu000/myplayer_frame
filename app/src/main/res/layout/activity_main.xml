@@ -9,8 +9,7 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_height="200dp">
 
         <player.view.TextureRenderLayout
             android:id="@+id/layout"
@@ -23,23 +22,28 @@
             android:layout_height="match_parent" />
     </FrameLayout>
 
-
-    <ImageView
-        android:id="@+id/iv"
-        android:layout_width="100dp"
-        android:layout_height="100dp" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="5dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <Button
-            android:id="@+id/btn_orientation"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:onClick="changeOrientation"
+            android:onClick="horizontalScreen"
             android:text="横屏" />
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="portraitFullScreen"
+            android:text="竖屏全屏" />
+
 
         <Button
             android:id="@+id/btn_window"
@@ -49,13 +53,6 @@
             android:onClick="changeWindow"
             android:text="小窗" />
 
-        <Button
-            android:id="@+id/btn_scale"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:onClick="changeScale"
-            android:text="缩放模式" />
 
         <Button
             android:id="@+id/btn_capture"
@@ -65,13 +62,39 @@
             android:onClick="capture"
             android:text="截图" />
 
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
         <Button
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:onClick="render"
-            android:text="渲染" />
+            android:onClick="fill"
+            android:text="填充" />
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="aspectFit"
+            android:text="衡纵比" />
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="centerCrop"
+            android:text="居中裁剪" />
+
 
     </LinearLayout>
+
+    <ImageView
+        android:id="@+id/iv_capture"
+        android:layout_width="match_parent"
+        android:layout_height="200dp" />
 
 </LinearLayout>

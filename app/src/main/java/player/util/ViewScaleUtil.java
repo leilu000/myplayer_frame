@@ -7,7 +7,7 @@ package player.util;
 public class ViewScaleUtil {
 
     public enum ScaleMode {
-        AspectFit, ClipBounds, Fill
+        AspectFit, CenterCrop, Fill
     }
 
     public static class Size {
@@ -17,7 +17,8 @@ public class ViewScaleUtil {
         public int height;
     }
 
-    public static Size calcFitSize(int imageWidth, int imageHeight, int viewWidth, int viewHeight, ScaleMode scaleMode) {
+    public static Size calcFitSize(int imageWidth, int imageHeight, int viewWidth
+            , int viewHeight, ScaleMode scaleMode) {
         double scale;
         Size size = new Size();
         if (ScaleMode.AspectFit == scaleMode) {
@@ -34,7 +35,7 @@ public class ViewScaleUtil {
                 size.x = 0;
                 size.y = (viewHeight - size.height) / 2;
             }
-        } else if (ScaleMode.ClipBounds == scaleMode) {
+        } else if (ScaleMode.CenterCrop == scaleMode) {
             if (viewHeight * imageWidth < viewWidth * imageHeight) {
                 scale = 1.0 * viewWidth / imageWidth;
                 size.width = viewWidth;

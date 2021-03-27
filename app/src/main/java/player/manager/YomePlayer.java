@@ -215,10 +215,8 @@ public class YomePlayer {
         mPlayerEventDispatcher = new PlayerEventDispatcher(mPlayerListenerList);
         mPlayerEventDispatcher.init(mPlayer);
         addPlayerListener(mPlayerListener);
-        mControllerView = mBuilder.mControllerView;
-        setPlayerControllerView(mControllerView);
-        mRenderLayout = mBuilder.mRenderLayout;
-        setPlayerLayout(mRenderLayout);
+        setPlayerControllerView(mBuilder.mControllerView);
+        setRenderLayout(mBuilder.mRenderLayout);
         setDataSource(mBuilder.mUrl);
         return this;
     }
@@ -369,8 +367,12 @@ public class YomePlayer {
      * @param layout
      */
     @UiThread
-    public YomePlayer setPlayerLayout(final BaseRenderLayout layout) {
+    public YomePlayer setRenderLayout(final BaseRenderLayout layout) {
         checkPlayer();
+        if (layout == null || mRenderLayout != null
+                || mBuilder.mDisplayMode == DisplayMode.INNER_ACTIVITY_TINY_WINDOW) {
+            return this;
+        }
         mRenderLayout = layout;
         if (mRenderLayout != null) {
             mRenderLayout.attachPlayer(mPlayer);
