@@ -378,7 +378,7 @@ public class YomePlayer {
             mRenderLayout.attachPlayer(mPlayer);
             mRenderLayout.setScaleMode(mBuilder.mScaleMode);
             mRenderLayout.updateImageSize(mVideoWidth, mVideoHeight);
-            mRenderLayout.setOnTouchListener(new TinyWindowTouchController(mPlayer, mControllerView, mRenderLayout));
+            mRenderLayout.setOnTouchListener(new FloatWindowTouchController(mPlayer, mControllerView, mRenderLayout));
             mRenderLayout.setDisplayMode(mBuilder.mDisplayMode);
             mRenderLayout.setSaveFloatWindowPosition(mBuilder.mSaveFloatWindowPosition);
             mRenderLayout.setTinyWindowClickListener(mBuilder.mOnFloatWindowClickListener);

@@ -21,14 +21,14 @@ import player.bean.DisplayMode;
  * @version 1.0
  * 3/25/21 3:44 PM
  */
-public class TinyWindowTouchController implements View.OnTouchListener {
+public class FloatWindowTouchController implements View.OnTouchListener {
 
 
     private BasePlayerControlView mPlayerControlView;
     private BaseRenderLayout mRenderLayout;
     private IPlayer mPlayer;
 
-    public TinyWindowTouchController(IPlayer player, BasePlayerControlView playerControlView
+    public FloatWindowTouchController(IPlayer player, BasePlayerControlView playerControlView
             , BaseRenderLayout renderLayout) {
         mPlayer = player;
         mPlayerControlView = playerControlView;
