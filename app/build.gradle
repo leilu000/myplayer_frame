@@ -1,14 +1,21 @@
-apply plugin: 'com.android.application'
+if (isApk) {
+    apply plugin: 'com.android.application'
+} else {
+    apply plugin: 'com.android.library'
+}
 
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.2"
     defaultConfig {
-        applicationId "com.leilu.playerframe"
+        if (isApk) {
+            applicationId "com.leilu.playerframe"
+            versionCode 1
+            versionName "1.0"
+        }
         minSdkVersion 15
         targetSdkVersion 29
-        versionCode 1
-        versionName "1.0"
+
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
 
@@ -22,7 +29,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-    //ndkVersion '23.0.7123448 rc1'
+//ndkVersion '23.0.7123448 rc1'
 }
 
 dependencies {
