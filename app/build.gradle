@@ -1,4 +1,5 @@
-if (Boolean.getBoolean(isApk)) {
+boolean apk = Boolean.getBoolean(isApk)
+if (apk) {
     apply plugin: 'com.android.application'
 } else {
     apply plugin: 'com.android.library'
@@ -9,7 +10,7 @@ android {
     compileSdkVersion 29
     buildToolsVersion "29.0.2"
     defaultConfig {
-        if (isApk) {
+        if (apk) {
             applicationId "com.leilu.playerframe"
             versionCode 1
             versionName "1.0"
